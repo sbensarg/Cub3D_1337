@@ -13,7 +13,7 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-#include <mlx.h>
+#include "mlx.h"
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -23,17 +23,31 @@
 
 #define MAX_VALUE 2147483647
 
-#define KEY_UP 126
-#define KEY_DOWN 125
-#define KEY_LEFT 123
-#define KEY_RIGHT 124
-#define esc 53
+// #define KEY_UP 126
+// #define KEY_DOWN 125
+// #define KEY_LEFT 123
+// #define KEY_RIGHT 124
+// #define esc 53
 
-#define KEY_W 13
-#define KEY_S 1
-#define KEY_A 0
-#define KEY_D 2
+// #define KEY_W 13
+// #define KEY_S 1
+// #define KEY_A 0
+// #define KEY_D 2
+// #define PI 3.14159
+
+//for ununtu
+#define KEY_UP 65362
+#define KEY_DOWN 65364
+#define KEY_LEFT 65361
+#define KEY_RIGHT 65363
+
+#define KEY_W 119
+#define KEY_S 115
+#define KEY_A 97
+#define KEY_D 100
+#define esc 65307
 #define PI 3.14159
+
 
 int		texturenum;
 int		color;

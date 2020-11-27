@@ -187,8 +187,10 @@ int		main(int argc, char **argv)
 			exit(0);
 		}
 		mlx_put_image_to_window(data.mlx_ptr, data.mlx_win, img.img, 0, 0);
-		mlx_hook(data.mlx_win, 2, 1L << 1, ft_keypressed, 0);
-		mlx_hook(data.mlx_win, 3, 1L << 2, ft_keyreleased, 0);
+		// mlx_hook(data.mlx_win, 2, 1L << 1, ft_keypressed, 0);
+		// mlx_hook(data.mlx_win, 3, 1L << 2, ft_keyreleased, 0);
+		   mlx_hook(data.mlx_win, 2, 1L << 0, ft_keypressed, 0);
+		   mlx_hook(data.mlx_win, 3, 1L << 1, ft_keyreleased, 0);
 		mlx_hook(data.mlx_win, 17, 1L << 0, ft_close, 0);
 		mlx_loop(data.mlx_ptr);
 		return (EXIT_SUCCESS);

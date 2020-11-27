@@ -75,6 +75,7 @@ void ft_sortsprites()
         l++;
     }
     ft_bubble_sorte(sprite.spritedistance);
+    
 } 
 
 void draw_sprite(int x, int y, int height, int ray, int nbrofrays)
@@ -141,18 +142,19 @@ void    rendersprites()
         spriteangle = fmod(spriteangle, 2 * PI);
         if (spriteangle < 0)
             spriteangle = (2 * PI) + spriteangle;
-        if((spriteangle >= startfov && spriteangle <= startfov + consts.fov_ang))
-        {
-                fxa = sprite.sprite_map[l][1] - cos(spriteangle - 1.5708) * (consts.tile_size/3);
-                fya = sprite.sprite_map[l][0] - sin(spriteangle - 1.5708) * (consts.tile_size/3);
+     
+                fxa = sprite.sprite_map[l][1] - cos(spriteangle - 1.5708) * (consts.tile_size/2);
+                fya = sprite.sprite_map[l][0] - sin(spriteangle - 1.5708) * (consts.tile_size/2);
                 firstangle =  atan2(player.y - fya, player.x - fxa);
-                lxa = sprite.sprite_map[l][1] - cos(spriteangle + 1.5708) * (consts.tile_size/3);
-                lya = sprite.sprite_map[l][0] - sin(spriteangle + 1.5708) * (consts.tile_size/3);
+                lxa = sprite.sprite_map[l][1] - cos(spriteangle + 1.5708) * (consts.tile_size/2);
+                lya = sprite.sprite_map[l][0] - sin(spriteangle + 1.5708) * (consts.tile_size/2);
                 lastangle =  atan2(player.y - lya, player.x - lxa);
                  firstangle = fmod(firstangle, 2 * PI); 
                     if (firstangle < 0)
                     firstangle = (2 * PI) + firstangle;
-                lastangle = fmod(lastangle, 2 * PI); 
+                lastangle = fmod(lastangle, 2 * PI);
+                if(lastangle < firstangle)
+                    lastangle +=  (2 * PI);
                     if (lastangle < 0)
                     lastangle = (2 * PI) + lastangle;
                     j= 0;
@@ -162,14 +164,20 @@ void    rendersprites()
                     correctdist =  sprite.spritedistance[l] / cos(fabs(spriteangle - firstangle));
                     distanceprojectionplane = (consts.window_width / 2) / tan(consts.fov_ang / 2);
 		            size_sprite = (consts.tile_size / correctdist) * distanceprojectionplane;
-                    stripheight = (size_sprite * consts.window_width) / consts.display_window_width;
+                    stripheight = (size_sprite * consts.display_window_width) / consts.window_width;
                      j++;
                       v = putray_forsprite(correctdist, firstangle);
                      if(v == 1)
-                         draw_sprite(fabs(firstangle - startfov) / consts.angleinc, consts.display_window_height/2 - stripheight/2, stripheight, j, nbrofrays);
+                        if ((spriteangle >= startfov && spriteangle <= startfov + consts.fov_ang))
+                        {
+                            draw_sprite(fabs(startfov - firstangle) / consts.angleinc, consts.display_window_height/2 - stripheight/2, stripheight, j, nbrofrays);
+                        }else if(spriteangle <= endfov && endfov <= consts.fov_ang)
+                        {
+                            printf("wfwf");
+                            draw_sprite(consts.display_window_width - (fabs(firstangle - endfov) / consts.angleinc), consts.display_window_height/2 - stripheight/2, stripheight, j, nbrofrays);
+                        }
                    firstangle += consts.angleinc;
               }
-         }
          l++;
     }
 }
