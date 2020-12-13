@@ -13,6 +13,13 @@
 #include "GNL/get_next_line.h"
 #include "cub3d.h"
 
+void		exit_notify(char *s)
+{
+	write(2, "Error\n", 6);
+	write(2, s, ft_strlen(s));
+	write(2, "\n", 1);
+	exit(0);
+}
 
 void init_data()
 {
@@ -20,6 +27,26 @@ void init_data()
     data_cub.map_j = 0;
     data_cub.string_map= ft_strdup("\n");
 }
+// void    ft_init_map()
+// {
+//     int i;
+//     int j;
+
+//     j = 0;
+    
+//     data_cub.map = malloc(data_cub.map_j * sizeof(int*));
+//     while (j < data_cub.map_j)
+//     {
+//         data_cub.map[j] = malloc(data_cub.map_i * sizeof(int));
+//         i = 0;
+//         while (i <= data_cub.map_i)
+// 		{
+// 			data_cub.map[j][i] = -1;
+// 			i++;
+// 		}
+//         j++;
+//     }
+// }
 
 void    ft_rempli_map()
 {
@@ -74,6 +101,11 @@ void    ft_rempli_map()
                 data_cub.map[i][j] = 0;
                 j++;
             }
+            else if(data_cub.string_map[k] == ' ')
+            {
+                  data_cub.map[i][j] = 4;
+                  j++;
+            }
             else
             {
                 data_cub.map[i][j] = data_cub.string_map[k] - '0';
@@ -82,7 +114,35 @@ void    ft_rempli_map()
         }
     k++;
     }
-}
+ }
+ void check_tab_spaces()
+ {
+     int i;
+     int j;
+
+     j = 1;
+     i = 0;
+    while(j < data_cub.map_j)
+    {
+        while(i < data_cub.map_i)
+        {
+            while(data_cub.map[0][i] == 4)
+                i++;
+            if(data_cub.map[0][i] != 1)
+                exit_notify("top of the map not closed");
+            if(data_cub.map[j][i] == 0)
+            {
+                if(data_cub.map[j-1][i] == 4)
+                    exit_notify("khroj a ba");
+                if(j < data_cub.map_j - 1 && data_cub.map[j+1][i] == 4)
+                     exit_notify("khroj a ba 2");
+            }
+            i++;
+        }
+        i = 0;
+        j++;
+    }
+ }
  int ft_checksprite(char *str)
  {
      int i;
@@ -98,14 +158,39 @@ void    ft_rempli_map()
      }
      return ret;
  }
+ void check_spaces(char *str)
+ {
+     int i;
+     i = 0;
+     
+     while(str[i] != '\0')
+     {
+         if(str[i] == '0')
+         {
+             if(str[i-1] == ' ' || str[i+1] == ' ')
+                exit_notify("map khassra mn lwst");
+         }
+         i++;
+     }
+ }
+ void check_border(char *str)
+ {
+     int i = 0;
+ 
+         while (str[i] == ' ')
+          i++;
+        if(str[i] != '1' || str[ft_strlen1(str)-1] != '1')
+            exit_notify("map not closed");
+ }
 void    ft_read_map(char *str)
 {
     int  len;
-    
+    int i;
+    i = 1;
+
     len = ft_strlen1(str);
     str = ft_strjoin1(str, "\n");
     data_cub.string_map = ft_strjoin1(data_cub.string_map, str);
-  
     if (len > data_cub.map_i)
         data_cub.map_i = len;
 }
@@ -117,8 +202,8 @@ int ft_getColorIntegerFromRGB(char *str)
     int nbr3 = 0;
     int i;
     i = 2;
-    
-         nbr1 = ft_atoi(str+i);
+
+        nbr1 = ft_atoi(str+i);
         while(str[i] != '\0' && str[i] != ',')
             i++;
         nbr2 = ft_atoi(str+i+1);
@@ -126,6 +211,11 @@ int ft_getColorIntegerFromRGB(char *str)
         while(str[i] != '\0' && str[i] != ',')
             i++;
         nbr3 = ft_atoi(str+i+1);
+       if (nbr1 > 255 || nbr2 > 255 || nbr3 > 255 || nbr1 < 0 || nbr2 < 0 || nbr3 < 0)
+       {
+            exit_notify("invalide data");
+       }
+           
      return ((nbr1 << 16) + (nbr2 << 8) + nbr3);
 }
 
@@ -154,6 +244,9 @@ void    ft_read_texture_from_cub(char *str)
 void ft_readfromdotcubpart2(char *str)
 {
     int i;
+    int emptyline;
+
+    emptyline = 0;
     i = 2;
 
     if (str[0] == 'R')
@@ -172,9 +265,15 @@ void ft_readfromdotcubpart2(char *str)
     {
         sprite.num_sprites += ft_checksprite(str);
         ft_read_map(str);
+        check_border(str);
+        check_spaces(str);
         data_cub.map_j++;
-        
     }
+    else
+    {
+         exit_notify("empty line after map");
+    }
+    
 }
 int ft_read_from_dotcub(char *filename)
 {
@@ -192,11 +291,13 @@ int ft_read_from_dotcub(char *filename)
         ft_readfromdotcubpart2(str);   
     }
      ft_readfromdotcubpart2(str);
+    // ft_init_map();
     ft_rempli_map();
+    check_tab_spaces();
         
-    // int i =0;
-    // int j=0;
-    // printf("%s\n", data_cub.string_map);
+    int i =0;
+    int j=0;
+   // printf("%s\n", data_cub.string_map);
     // while(j < data_cub.map_j)
     // {
     //     while(i < data_cub.map_i)
