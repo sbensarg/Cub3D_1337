@@ -216,20 +216,22 @@ void	render_rays(void)
 	int		wallstripheight;
 	int		wallstripheight_d;
 	float	correctdist;
-	int		i;
+	
 
-	i = 0;
+	ray.ray = 0;
 	ray_lenght = 0;
 	init_consts();
-	while (consts.first_ray_ang <= consts.last_ray_ang)
+	raydistance = malloc(sizeof(float) * consts.num_of_rays);
+	while (ray.ray < consts.num_of_rays)
 	{
 		ray_lenght = putray(consts.first_ray_ang);
 		correctdist = ray_lenght * cos(fabs(consts.first_ray_ang - player.rotationangle));
 		distanceprojectionplane = (consts.window_width / 2) / tan(consts.fov_ang / 2);
 		wallstripheight = (consts.tile_size / correctdist) * distanceprojectionplane;
 		wallstripheight_d = (consts.display_window_width * wallstripheight) / consts.window_width;
-		draw_wall(i * consts.ray_width, (consts.display_window_height / 2) - (wallstripheight_d / 2), wallstripheight_d);
+		draw_wall(ray.ray * consts.ray_width, (consts.display_window_height / 2) - (wallstripheight_d / 2), wallstripheight_d);
 		consts.first_ray_ang += consts.angleinc;
-		i++;
+		raydistance[ray.ray] = ray_lenght;
+		ray.ray++;
 	}
 }

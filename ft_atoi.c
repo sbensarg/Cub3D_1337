@@ -6,7 +6,7 @@
 /*   By: sbensarg <sbensarg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 16:28:20 by sbensarg          #+#    #+#             */
-/*   Updated: 2019/10/24 20:10:34 by sbensarg         ###   ########.fr       */
+/*   Updated: 2020/12/20 19:42:35 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ static int	max_int(long a, int s)
 	return (1);
 }
 
-int			ft_atoi(const char *str)
+long			ft_atoi(const char *str)
 {
-	int		i;
+	long		i;
 	long	a;
-	int		s;
+	long		s;
 
 	i = 0;
 	a = 0;

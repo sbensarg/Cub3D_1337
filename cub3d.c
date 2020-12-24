@@ -6,7 +6,7 @@
 /*   By: sbensarg <sbensarg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 00:52:27 by sbensarg          #+#    #+#             */
-/*   Updated: 2020/11/26 20:18:51 by sbensarg         ###   ########.fr       */
+/*   Updated: 2020/12/24 18:48:49 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,34 @@ int		ft_keyreleased(int keycode, void *lol)
 	update();
 	return (0);
 }
-
+void	init_texture()
+{
+	texture[0].img = mlx_xpm_file_to_image(data.mlx_ptr,data_cub.NO,&texture[0].tw, &texture[0].th);
+	if (texture[0].img == NULL)
+		 ft_print_err("ivalide xpm (NO)");
+	texture[0].addr = mlx_get_data_addr(texture[0].img, &texture[0].bits_per_pixel, &texture[0].line_length,
+	&texture[0].endian);
+	texture[1].img = mlx_xpm_file_to_image(data.mlx_ptr,data_cub.SO,&texture[1].tw, &texture[1].th);
+	if (texture[1].img == NULL)
+		 ft_print_err("ivalide xpm (SO)");
+	texture[1].addr = mlx_get_data_addr(texture[1].img, &texture[1].bits_per_pixel, &texture[1].line_length,
+	&texture[1].endian);
+	texture[2].img = mlx_xpm_file_to_image(data.mlx_ptr,data_cub.EA,&texture[2].tw, &texture[2].th);
+	if (texture[2].img == NULL)
+		 ft_print_err("ivalide xpm (EA)");
+	texture[2].addr = mlx_get_data_addr(texture[2].img, &texture[2].bits_per_pixel, &texture[2].line_length,
+	&texture[2].endian);
+	texture[3].img = mlx_xpm_file_to_image(data.mlx_ptr,data_cub.WE,&texture[3].tw, &texture[3].th);
+	if (texture[3].img == NULL)
+		 ft_print_err("ivalide xpm (WE)");
+	texture[3].addr = mlx_get_data_addr(texture[3].img, &texture[3].bits_per_pixel, &texture[3].line_length,
+	&texture[3].endian);
+	texture[4].img = mlx_xpm_file_to_image(data.mlx_ptr,data_cub.S,&texture[4].tw, &texture[4].th);
+	if (texture[4].img == NULL)
+		 ft_print_err("ivalide xpm (S)");
+	texture[4].addr = mlx_get_data_addr(texture[4].img, &texture[4].bits_per_pixel, &texture[4].line_length,
+	&texture[4].endian);
+}
 int		main(int argc, char **argv)
 {
 	int	i;
@@ -158,22 +185,8 @@ int		main(int argc, char **argv)
 		img.img = mlx_new_image(data.mlx_ptr, consts.display_window_width, consts.display_window_height);
 		img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 				&img.endian);
-		texture[0].img = mlx_xpm_file_to_image(data.mlx_ptr,data_cub.NO,&texture[0].tw, &texture[0].th);
-		texture[0].addr = mlx_get_data_addr(texture[0].img, &texture[0].bits_per_pixel, &texture[0].line_length,
-        &texture[0].endian);
-		texture[1].img = mlx_xpm_file_to_image(data.mlx_ptr,data_cub.SO,&texture[1].tw, &texture[1].th);
-		texture[1].addr = mlx_get_data_addr(texture[1].img, &texture[1].bits_per_pixel, &texture[1].line_length,
-		&texture[1].endian);
-		texture[2].img = mlx_xpm_file_to_image(data.mlx_ptr,data_cub.EA,&texture[2].tw, &texture[2].th);
-		texture[2].addr = mlx_get_data_addr(texture[2].img, &texture[2].bits_per_pixel, &texture[2].line_length,
-		&texture[2].endian);
-		texture[3].img = mlx_xpm_file_to_image(data.mlx_ptr,data_cub.WE,&texture[3].tw, &texture[3].th);
-		texture[3].addr = mlx_get_data_addr(texture[3].img, &texture[3].bits_per_pixel, &texture[3].line_length,
-		&texture[3].endian);
-		texture[4].img = mlx_xpm_file_to_image(data.mlx_ptr,data_cub.S,&texture[4].tw, &texture[4].th);
-		texture[4].addr = mlx_get_data_addr(texture[4].img, &texture[4].bits_per_pixel, &texture[4].line_length,
-		&texture[4].endian);
 		
+		init_texture();
 		//render_map();
     	//render_player(0x00000000);
 		render_rays();
@@ -183,14 +196,14 @@ int		main(int argc, char **argv)
 			if (!strcmp(argv[2], "--save"))
 				write_bmp("cub.bmp", img.addr);
 			else
-				perror("Error: ");
+				ft_print_err("invalide argument!!");
 			exit(0);
 		}
 		mlx_put_image_to_window(data.mlx_ptr, data.mlx_win, img.img, 0, 0);
 		// mlx_hook(data.mlx_win, 2, 1L << 1, ft_keypressed, 0);
 		// mlx_hook(data.mlx_win, 3, 1L << 2, ft_keyreleased, 0);
-		   mlx_hook(data.mlx_win, 2, 1L << 0, ft_keypressed, 0);
-		   mlx_hook(data.mlx_win, 3, 1L << 1, ft_keyreleased, 0);
+		mlx_hook(data.mlx_win, 2, 1L << 0, ft_keypressed, 0);
+		mlx_hook(data.mlx_win, 3, 1L << 1, ft_keyreleased, 0);
 		mlx_hook(data.mlx_win, 17, 1L << 0, ft_close, 0);
 		mlx_loop(data.mlx_ptr);
 		return (EXIT_SUCCESS);

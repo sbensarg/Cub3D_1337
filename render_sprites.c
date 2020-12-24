@@ -6,7 +6,7 @@
 /*   By: sbensarg <sbensarg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 18:08:03 by sbensarg          #+#    #+#             */
-/*   Updated: 2020/11/26 20:43:50 by sbensarg         ###   ########.fr       */
+/*   Updated: 2020/12/23 00:22:34 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,18 +86,16 @@ void draw_sprite(int x, int y, int height, int ray, int nbrofrays)
     
     j = 0;
     i = 0;
-  
-		while (j < height)
-		{
-			if (y + j >= 0 && y + j < consts.display_window_height)
-			{
-                color = ft_read_from_memory(texture[4],texture[4].tw * ray / nbrofrays,texture[4].th * j / height);
-                if (color != 0x0000)
-				    my_mlx_pixel_put(x, y + j, color);
-			}
-			j++;
-		}
-        j = 0;
+    while (j < height)
+    {
+        if (y + j >= 0 && y + j < consts.display_window_height)
+        {
+            color = ft_read_from_memory(texture[4],texture[4].tw * ray / nbrofrays,texture[4].th * j / height);
+            if (color != 0x0000)
+                my_mlx_pixel_put(x, y + j, color);
+        }
+        j++;
+    }
 }
 void    rendersprites()
 {
@@ -123,7 +121,7 @@ void    rendersprites()
     int     *spriteorder;
     double  *spritedistance;
     
-   ft_sortsprites();
+    ft_sortsprites();
     l = 0;
     int j = 0;
     int i = 0;
@@ -149,35 +147,45 @@ void    rendersprites()
                 lxa = sprite.sprite_map[l][1] - cos(spriteangle + 1.5708) * (consts.tile_size/2);
                 lya = sprite.sprite_map[l][0] - sin(spriteangle + 1.5708) * (consts.tile_size/2);
                 lastangle =  atan2(player.y - lya, player.x - lxa);
-                 firstangle = fmod(firstangle, 2 * PI); 
-                    if (firstangle < 0)
-                    firstangle = (2 * PI) + firstangle;
+                 
                 lastangle = fmod(lastangle, 2 * PI);
+                x = -1;
                 if(lastangle < firstangle)
                     lastangle +=  (2 * PI);
                     if (lastangle < 0)
                     lastangle = (2 * PI) + lastangle;
                     j= 0;
                 int nbrofrays = fabs(firstangle - lastangle) / consts.angleinc;
-                while (firstangle < lastangle)
+                while (j < nbrofrays)
                 {
+                    firstangle = fmod(firstangle, 2 * PI); 
+                    if (firstangle < 0)
+                        firstangle = (2 * PI) + firstangle;
                     correctdist =  sprite.spritedistance[l] / cos(fabs(spriteangle - firstangle));
                     distanceprojectionplane = (consts.window_width / 2) / tan(consts.fov_ang / 2);
 		            size_sprite = (consts.tile_size / correctdist) * distanceprojectionplane;
                     stripheight = (size_sprite * consts.display_window_width) / consts.window_width;
-                     j++;
-                      v = putray_forsprite(correctdist, firstangle);
-                     if(v == 1)
-                        if ((spriteangle >= startfov && spriteangle <= startfov + consts.fov_ang))
-                        {
-                            draw_sprite(fabs(startfov - firstangle) / consts.angleinc, consts.display_window_height/2 - stripheight/2, stripheight, j, nbrofrays);
-                        }else if(spriteangle <= endfov && endfov <= consts.fov_ang)
-                        {
-                            printf("wfwf");
-                            draw_sprite(consts.display_window_width - (fabs(firstangle - endfov) / consts.angleinc), consts.display_window_height/2 - stripheight/2, stripheight, j, nbrofrays);
-                        }
-                   firstangle += consts.angleinc;
+                    if ((firstangle >= startfov && firstangle <= startfov + consts.fov_ang))
+                    {
+                        x = fabs(startfov - firstangle) / consts.angleinc;
+                        break;
+                    }
+                    else if(firstangle <= fmod(startfov + consts.fov_ang, 2 * PI) && startfov + consts.fov_ang > 2 * PI)
+                    {
+                        x = consts.display_window_width - (fabs(firstangle - fmod(startfov + consts.fov_ang, 2 * PI)) / consts.angleinc);
+                        break;
+                    }
+                    j++;
+                    firstangle += consts.angleinc;
+              }
+              while (j < nbrofrays)
+              {
+                    if (x != -1 && raydistance[x] > sprite.spritedistance[l])
+                        draw_sprite(x, consts.display_window_height/2 - stripheight/2, stripheight, j, nbrofrays);
+                    x++;
+                    j++;
               }
          l++;
     }
+    free(raydistance);
 }

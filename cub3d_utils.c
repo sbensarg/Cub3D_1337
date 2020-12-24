@@ -4,15 +4,21 @@ void            my_mlx_pixel_put(int x, int y, int color)
 {
     char    *dst;
 
-    dst = img.addr + (y * img.line_length + x * (img.bits_per_pixel / 8));
-    *(unsigned int*)dst = color;
+	if (x >= 0 && x < consts.display_window_width && y >= 0 && y < consts.display_window_height)
+	{
+    	dst = img.addr + (y * img.line_length + x * (img.bits_per_pixel / 8));
+    	*(unsigned int*)dst = color;
+	}
 }
 unsigned int    ft_read_from_memory(t_data texture, int x, int y)
 {
     char    *dst;
-
-    dst = texture.addr + (y * texture.line_length + x * (texture.bits_per_pixel / 8));
-    return (*(unsigned int*)dst);
+	if (x >= 0 && x < texture.tw && y >= 0 && y < texture.th)
+	{
+    	dst = texture.addr + (y * texture.line_length + x * (texture.bits_per_pixel / 8));
+    	return (*(unsigned int*)dst);
+	}
+	return 0;
 }
 
 

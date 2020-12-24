@@ -6,7 +6,7 @@
 /*   By: sbensarg <sbensarg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 20:25:51 by sbensarg          #+#    #+#             */
-/*   Updated: 2020/11/26 20:20:14 by sbensarg         ###   ########.fr       */
+/*   Updated: 2020/12/22 19:55:31 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,39 +20,41 @@
 #include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <errno.h>
 
 #define MAX_VALUE 2147483647
 
-// #define KEY_UP 126
-// #define KEY_DOWN 125
-// #define KEY_LEFT 123
-// #define KEY_RIGHT 124
-// #define esc 53
+#define KEY_UP 126
+#define KEY_DOWN 125
+#define KEY_LEFT 123
+#define KEY_RIGHT 124
+#define esc 53
 
-// #define KEY_W 13
-// #define KEY_S 1
-// #define KEY_A 0
-// #define KEY_D 2
-// #define PI 3.14159
+#define KEY_W 13
+#define KEY_S 1
+#define KEY_A 0
+#define KEY_D 2
+#define PI 3.14159
 
 //for ununtu
-#define KEY_UP 65362
-#define KEY_DOWN 65364
-#define KEY_LEFT 65361
-#define KEY_RIGHT 65363
+// #define KEY_UP 65362
+// #define KEY_DOWN 65364
+// #define KEY_LEFT 65361
+// #define KEY_RIGHT 65363
 
-#define KEY_W 119
-#define KEY_S 115
-#define KEY_A 97
-#define KEY_D 100
-#define esc 65307
-#define PI 3.14159
+// #define KEY_W 119
+// #define KEY_S 115
+// #define KEY_A 97
+// #define KEY_D 100
+// #define esc 65307
+// #define PI 3.14159
 
 
 int		texturenum;
 int		color;
 int		textureoffsetx;
 int		textureofssety;
+int		nbr_element;
 typedef struct
 {
 	int tile_size;
@@ -112,11 +114,12 @@ typedef struct
 typedef struct
 {
 	float	angel;
+	int		ray;
 }					t_ray;
 
 typedef struct  s_datacub {
-    int		R_x;
-    int		R_y;
+    long		R_x;
+    long		R_y;
     char	*NO;
 	char	*SO;
 	char	*WE;
@@ -151,11 +154,14 @@ t_sprite	sprite;
 
 void            my_mlx_pixel_put(int x, int y, int color);
 int				ft_read_from_dotcub(char *filename);
-int				ft_atoi(const char *str);
+long			ft_atoi(const char *str);
 char			*ft_substr(char const *s, unsigned int start, size_t len);
 size_t			ft_strlen1(const char *str);
 char			*ft_strjoin1(char const *s1, char const *s2);
 void			*ft_memcpy1(void *dest, const void *src, size_t n);
+int				ft_strncmp(const char *s1, const char *s2, size_t n);
+char			*ft_strtrim(char const *s1, char const *set);
+char			**ft_split(char const *s, char c);
 char			*ft_strdup1(char *s1);
 void			init_consts(void);
 void			init_player(void);
@@ -169,7 +175,8 @@ unsigned int    ft_read_from_memory(t_data texture, int x, int y);
 void			write_bmp(char *filename, char rgb[]);
 void			fmod_angle(float angle);
 void			rendersprites();
-
-
 float			putray(float angle);
+void		ft_print_err(char *s);
+
+float *raydistance;
 #endif
