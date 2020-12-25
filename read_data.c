@@ -6,7 +6,7 @@
 /*   By: sbensarg <sbensarg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 23:59:01 by sbensarg          #+#    #+#             */
-/*   Updated: 2020/12/24 19:26:41 by sbensarg         ###   ########.fr       */
+/*   Updated: 2020/12/25 12:18:23 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -371,14 +371,13 @@ int ft_getColorIntegerFromRGB_C(char *str)
      return ((nbr1 << 16) + (nbr2 << 8) + nbr3);
 }
 
-// void check_ext(char *ext)
-// {
-//     int len;
-//     len = ft_strlen1(ext);
-//     if(ft_strncmp(&ext[len - 4], ".xpm", 4) != 0 && ft_strncmp(&ext[len - 4], ".XPM", 4) != 0 
-//     && ft_strncmp(&ext[len - 4], ".png", 4) != 0 && ft_strncmp(&ext[len - 4], ".PNG", 4) != 0)
-//          ft_print_err("ivalide xpm");
-// }
+void check_ext(char *ext)
+{
+    int len;
+    len = ft_strlen1(ext);
+    if(ft_strncmp(&ext[len - 4], ".cub", 4) != 0)
+         ft_print_err("ivalid cub");
+}
 
 int check_path(char *path)
 {
@@ -402,7 +401,7 @@ char *check_NO(char *str)
         ft_print_err("ivalide identifer (NO)");
     ret = ft_substr(str, 3, ft_strlen1(str+3));
     if(check_path(ret) == -1)
-        ft_print_err("the path of file not exist");
+        ft_print_err("the path of file not exist (NO)");
   // check_ext(ret);
     return(ret);
 }
@@ -416,7 +415,7 @@ char *check_SO(char *str)
         ft_print_err("ivalide identifer (SO)");
     ret = ft_substr(str, 3, ft_strlen1(str+3));
     if(check_path(ret) == -1)
-        ft_print_err("the path of file not exist");
+        ft_print_err("the path of file not exist (SO)");
    // check_ext(ret);
     return(ret);
 }
@@ -430,7 +429,7 @@ char *check_WE(char *str)
         ft_print_err("ivalide identifer (WE)");
     ret = ft_substr(str, 3, ft_strlen1(str+3));
     if(check_path(ret) == -1)
-        ft_print_err("the path of file not exist");
+        ft_print_err("the path of file not exist (WE)");
    // check_ext(ret);
     return(ret);
 }
@@ -444,7 +443,7 @@ char *check_EA(char *str)
         ft_print_err("ivalide identifer (EA)");
     ret = ft_substr(str, 3, ft_strlen1(str+3));
     if(check_path(ret) == -1)
-        ft_print_err("the path of file not exist");
+        ft_print_err("the path of file not exist (EA)");
    // check_ext(ret);
     return(ret);
 }
@@ -593,61 +592,66 @@ void ft_readfromdotcubpart2(char *str)
     i = 2;
     tmp = ft_strdup1(str);
     ret = ft_strtrim(tmp, " ");
-    if (ret[0] == 'R')
+    if (ret[0] == '\t')
+        ret += 1;
+    if(ret[0] != '\0')
     {
-        ft_getresolution(str);
-    }
-    else if(ret[0] == 'N' || ret[0] =='S' || ret[0] =='W' || ret[0] == 'E')
-    {
-        ft_read_texture_from_cub(str);
-    }
-        
-    else if(ret[0] == 'F')
-    {
-        if (data_cub.F == -1)
+        if (ret[0] == 'R')
         {
-            if(ret[1] != '\0' && ret[2] != '\0')
-                data_cub.F = ft_getColorIntegerFromRGB_F(ret);
-            else
-               ft_print_err("Floor color is empty");
+            ft_getresolution(ret);
         }
-        else
-            ft_print_err("Duplicate color of floor");
-        
-    }
-    else if (ret[0] == 'C')
-    {
-        if(data_cub.C == -1)
+        else if(ret[0] == 'N' || ret[0] =='S' || ret[0] =='W' || ret[0] == 'E')
         {
-            if(ret[1] != '\0' && ret[2] != '\0')
-                data_cub.C = ft_getColorIntegerFromRGB_C(ret);
-            else
-                ft_print_err("C color is empty");
+            ft_read_texture_from_cub(ret);
         }
-        else
-            ft_print_err("Duplicate color of Ceilling");
-        
-    }
-    else if (is_all() == 1 && is_valide(str) == 1) 
-    {
-        sprite.num_sprites += ft_checksprite(str);
-        ft_read_map(str);
-        check_border(str);
-        check_spaces(str);
-        data_cub.map_j++;
-    }
-    else if (str[0] == '\0' && data_cub.map_j > 0)
-    {
-        ft_print_err("empty line in map");
-    }
-    else if (is_valide(ret) != 1 && data_cub.map_j > 0)
-    {
-        ft_print_err("line in map not valide");
-    }
+            
+        else if(ret[0] == 'F')
+        {
+            if (data_cub.F == -1)
+            {
+                if(ret[1] != '\0' && ret[2] != '\0')
+                    data_cub.F = ft_getColorIntegerFromRGB_F(ret);
+                else
+                ft_print_err("Floor color is empty");
+            }
+            else
+                ft_print_err("Duplicate color of floor");
+            
+        }
+        else if (ret[0] == 'C')
+        {
+            if(data_cub.C == -1)
+            {
+                if(ret[1] != '\0' && ret[2] != '\0')
+                    data_cub.C = ft_getColorIntegerFromRGB_C(ret);
+                else
+                    ft_print_err("C color is empty");
+            }
+            else
+                ft_print_err("Duplicate color of Ceilling");
+            
+        }
+        else if (is_all() == 1 && is_valide(str) == 1) 
+        {
+            sprite.num_sprites += ft_checksprite(str);
+            ft_read_map(str);
+            check_border(str);
+            check_spaces(str);
+            data_cub.map_j++;
+        }
+        else if (str[0] == '\0' && data_cub.map_j > 0)
+        {
+            ft_print_err("empty line in map");
+        }
+        else if (is_valide(ret) != 1 && data_cub.map_j > 0)
+        {
+            ft_print_err("line in map not valide");
+        }
     // else
     // {
     //     ft_print_err("Invalide Configuration!");
     // }
+}
 }
 
 void ft_check_param()
@@ -665,12 +669,13 @@ int ft_read_from_dotcub(char *filename)
 
     sprite.num_sprites = 0;
     fd = open(filename, O_RDONLY);
-    init_data();
     if (fd == -1)
         return (-1);
+    check_ext(filename);
+    init_data();
     while ((r = get_next_line(fd, &str)) > 0)
     {
-        if (is_all1() != 1 && str[0] == '\0')
+        if (is_all1() != 1 && (str[0] == '\0'))
             continue ;
         ft_readfromdotcubpart2(str);
     }
@@ -685,16 +690,16 @@ int ft_read_from_dotcub(char *filename)
     int i =0;
     int j=0;
 //    printf("%s\n", data_cub.string_map);
-    while(j < data_cub.map_j)
-    {
-        while(i < data_cub.map_i)
-        {
-            printf("%d", data_cub.map[j][i]);
-            i++;
-        }
-        printf("\n");
-        i = 0;
-        j++;
-    }
+    // while(j < data_cub.map_j)
+    // {
+    //     while(i < data_cub.map_i)
+    //     {
+    //         printf("%d", data_cub.map[j][i]);
+    //         i++;
+    //     }
+    //     printf("\n");
+    //     i = 0;
+    //     j++;
+    // }
     return 0;  
 }

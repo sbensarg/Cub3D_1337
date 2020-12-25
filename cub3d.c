@@ -6,7 +6,7 @@
 /*   By: sbensarg <sbensarg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 00:52:27 by sbensarg          #+#    #+#             */
-/*   Updated: 2020/12/24 18:48:49 by sbensarg         ###   ########.fr       */
+/*   Updated: 2020/12/25 11:43:07 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ int		main(int argc, char **argv)
 		init_player();
 		if ((data.mlx_ptr = mlx_init()) == NULL)
 			return (EXIT_FAILURE);
-		if ((data.mlx_win = mlx_new_window(data.mlx_ptr, consts.display_window_width, consts.display_window_height, "cub3d")) == NULL)
+		if ((data.mlx_win = mlx_new_window(data.mlx_ptr, consts.display_window_width, consts.display_window_height, "cub3D")) == NULL)
 			return (EXIT_FAILURE);
 		img.img = mlx_new_image(data.mlx_ptr, consts.display_window_width, consts.display_window_height);
 		img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,

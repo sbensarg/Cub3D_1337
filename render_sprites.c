@@ -6,7 +6,7 @@
 /*   By: sbensarg <sbensarg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 18:08:03 by sbensarg          #+#    #+#             */
-/*   Updated: 2020/12/23 00:22:34 by sbensarg         ###   ########.fr       */
+/*   Updated: 2020/12/25 12:42:50 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,30 +137,31 @@ void    rendersprites()
     while (l < sprite.num_sprites)
     {
         spriteangle =  atan2(player.y - sprite.sprite_map[l][0], player.x - sprite.sprite_map[l][1]);
+      //  printf("%f\n", spriteangle);
         spriteangle = fmod(spriteangle, 2 * PI);
+       // printf("%f after fmod\n", spriteangle);
         if (spriteangle < 0)
             spriteangle = (2 * PI) + spriteangle;
-     
                 fxa = sprite.sprite_map[l][1] - cos(spriteangle - 1.5708) * (consts.tile_size/2);
                 fya = sprite.sprite_map[l][0] - sin(spriteangle - 1.5708) * (consts.tile_size/2);
                 firstangle =  atan2(player.y - fya, player.x - fxa);
                 lxa = sprite.sprite_map[l][1] - cos(spriteangle + 1.5708) * (consts.tile_size/2);
                 lya = sprite.sprite_map[l][0] - sin(spriteangle + 1.5708) * (consts.tile_size/2);
                 lastangle =  atan2(player.y - lya, player.x - lxa);
-                 
-                lastangle = fmod(lastangle, 2 * PI);
+                //firstangle = fmod(firstangle, 2 * PI); 
+               // lastangle = fmod(lastangle, 2 * PI);
                 x = -1;
                 if(lastangle < firstangle)
                     lastangle +=  (2 * PI);
-                    if (lastangle < 0)
+                    
+                if (lastangle < 0)
                     lastangle = (2 * PI) + lastangle;
-                    j= 0;
+                if (firstangle < 0)
+                        firstangle = (2 * PI) + firstangle;
+                j= 0;
                 int nbrofrays = fabs(firstangle - lastangle) / consts.angleinc;
                 while (j < nbrofrays)
                 {
-                    firstangle = fmod(firstangle, 2 * PI); 
-                    if (firstangle < 0)
-                        firstangle = (2 * PI) + firstangle;
                     correctdist =  sprite.spritedistance[l] / cos(fabs(spriteangle - firstangle));
                     distanceprojectionplane = (consts.window_width / 2) / tan(consts.fov_ang / 2);
 		            size_sprite = (consts.tile_size / correctdist) * distanceprojectionplane;
