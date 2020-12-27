@@ -6,7 +6,7 @@
 /*   By: sbensarg <sbensarg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 20:25:51 by sbensarg          #+#    #+#             */
-/*   Updated: 2020/12/22 19:55:31 by sbensarg         ###   ########.fr       */
+/*   Updated: 2020/12/27 12:19:12 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,7 @@ int				ft_strncmp(const char *s1, const char *s2, size_t n);
 char			*ft_strtrim(char const *s1, char const *set);
 char			**ft_split(char const *s, char c);
 char			*ft_strdup1(char *s1);
+void			ft_isdigit(char *c);
 void			init_consts(void);
 void			init_player(void);
 void			render_map();
@@ -176,7 +177,35 @@ void			write_bmp(char *filename, char rgb[]);
 void			fmod_angle(float angle);
 void			rendersprites();
 float			putray(float angle);
-void		ft_print_err(char *s);
+void			ft_print_err(char *s);
+void			check_spaces(char *str);
+void			check_border(char *str);
+void			check_tab_spaces();
+void			init_data();
+void			ft_check_param();
+int				len_num(long long nbr);
+void			check_ext(char *ext);
+int				check_path(char *path);
+void			init_sprite();
+void			sprite_position(int *i, int *j, int *k, int *l);
+int				ft_checksprite(char *str);
+void			init_p(int *i, int *j,int *k);
+void			check_player();
+int				is_all();
+int				is_all1();
+int				is_valide(char *str);
+int				is_player(int *k);
+void			ft_read_map(char *str);
+void			ft_init_map();
+void			map(int *i, int *j, int *k, int *l);
+void			ft_rempli_map();
+void			ft_rempli_spaces();
+void			ft_getresolution(char *str);
+int				ft_getColorIntegerFromRGB_F(char *str);
+int				ft_getColorIntegerFromRGB_C(char *str);
+void			ft_read_texture_from_cub(char *str);
+char			*check_identifer(char *str);
+char			*check_S(char *str);
 
 float *raydistance;
 #endif
