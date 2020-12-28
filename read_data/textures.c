@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   textures.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbensarg <sbensarg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chicky <chicky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/27 12:00:41 by sbensarg          #+#    #+#             */
-/*   Updated: 2020/12/27 12:01:55 by sbensarg         ###   ########.fr       */
+/*   Updated: 2020/12/28 22:03:08 by chicky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,70 +16,17 @@
 void    ft_read_texture_from_cub(char *str)
 {
     if (str[0] =='N' && str[1] == 'O')
-    {
-        if(data_cub.NO == NULL)
-        {
-            if(str[3] != '\0')
-                data_cub.NO = check_identifer(str);
-            else
-                ft_print_err("North texture is empty");
-        }
-        else
-            ft_print_err("North texture is duplicated");
-    }
+        ft_read_NO(&str);
     else if (str[0] =='S' && str[1] == 'O')
-    {
-        if(data_cub.SO == NULL)
-        {
-            if(str[3] != '\0')
-                data_cub.SO = check_identifer(str);
-            else
-                ft_print_err("South texture is empty");
-        }
-        else
-            ft_print_err("South texture is duplicated");
-    }
+        ft_read_SO(&str);
     else if (str[0] =='W' && str[1] == 'E')
-    {
-        if(data_cub.WE == NULL)
-        {
-            if(str[3] != '\0')
-                data_cub.WE = check_identifer(str);
-            else
-                ft_print_err("West texture is empty");
-        }
-        else
-            ft_print_err("West texture is duplicated");
-    }
+        ft_read_WE(&str);
     else if (str[0] == 'E' && str[1] == 'A')
-    {
-        if(data_cub.EA == NULL)
-        {
-            if(str[2] != '\0' && str[3] != '\0')
-                data_cub.EA = check_identifer(str);
-            else
-                ft_print_err("East texture is empty");
-        }
-        else
-            ft_print_err("East texture is duplicated");
-    }
-     else if (str[0] == 'S')
-    {
-        if (data_cub.S == NULL)
-        {
-            if(str[2] != '\0' && str[1] != '\0')
-                data_cub.S = check_S(str);
-            else
-                ft_print_err("Sprite texture is empty");
-        }
-        else
-            ft_print_err("Sprite texture is duplicated");
-    }
+        ft_read_EA(&str);
+    else if (str[0] == 'S')
+        ft_read_S(&str);
     else
-    {
         ft_print_err("Invalide Configuration!!");
-    }
-    
 }
 
 char *check_identifer(char *str)

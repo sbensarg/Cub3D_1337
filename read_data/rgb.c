@@ -13,15 +13,45 @@
 #include "../GNL/get_next_line.h"
 #include "../cub3d.h"
 
+
+int get_nbr(char **str, int *i)
+{
+    char    *str1;
+    int     nbr2;
+
+    str1 = *str;
+    while(str1[*i] != '\0' && (str1[*i] == ' '
+    || (str1[*i] >= '0' && str1[*i] <= '9')))
+        (*i)++;
+    if(str1[*i] != ',')
+        ft_print_err("invalid dsd");
+    while(str1[*i+1] == ' ')
+        (*i)++;
+    ft_isdigit(str1+*i+1);
+    nbr2 = ft_atoi(str1+*i+1);
+    return (nbr2);
+}
+void check_after_getnbr(char **str, int *i)
+{
+    char *str1;
+    str1 = *str;
+    while(str1[*i+1] != '\0' && str1[*i+1] >= '0' && str1[*i+1] <= '9')
+        (*i)++;
+    if(str1[*i+1] != '\0')
+        ft_print_err("invalid nbr");
+}
 int ft_getColorIntegerFromRGB_F(char *str)
 {
-    int nbr1 = 0;
-    int nbr2 = 0;
-    int nbr3 = 0;
-    char *ret;
-    char **ptr;
-    int i;
+    int     nbr1;
+    int     nbr2;
+    int     nbr3;
+    char    **ptr;
+    int     i;
+
     i = 2;
+    nbr1 = 0;
+    nbr2 = 0;
+    nbr3 = 0;
     ptr = ft_split(str, ' ');
     if(ft_strncmp(ptr[0], "F", 2) != 0)
         ft_print_err("ivalide identifer (F)");
@@ -29,75 +59,41 @@ int ft_getColorIntegerFromRGB_F(char *str)
         i++;
     ft_isdigit(str+i);
     nbr1 = ft_atoi(str+i);
-    
-    while(str[i] != '\0' && (str[i] == ' ' || (str[i] >= '0' && str[i] <= '9')))
-        i++;
-    if(str[i] != ',')
-        ft_print_err("invalid dsd");
-    while(str[i+1] == ' ')
-        i++;
-    ft_isdigit(str+i+1);
-    nbr2 = ft_atoi(str+i+1);
+    nbr2 = get_nbr(&str, &i);
     i++;
-    while(str[i] != '\0' && (str[i] == ' ' || (str[i] >= '0' && str[i] <= '9')))
-        i++;
-    if(str[i] != ',')
-        ft_print_err("invalid dsd");
-    while(str[i+1] == ' ')
-        i++;
-    ft_isdigit(str+i+1);
-    nbr3 = ft_atoi(str+i+1);
-    while(str[i+1] != '\0' && str[i+1] >= '0' && str[i+1] <= '9')
-        i++;
-    if(str[i+1] != '\0')
-        ft_print_err("invalid nbr");
-    if (nbr1 > 255 || nbr2 > 255 || nbr3 > 255 || nbr1 < 0 || nbr2 < 0 || nbr3 < 0)
-    {
+    nbr3 = get_nbr(&str, &i);
+    check_after_getnbr(&str, &i);
+    if (nbr1 > 255 || nbr2 > 255 || nbr3 > 255
+    || nbr1 < 0 || nbr2 < 0 || nbr3 < 0)
         ft_print_err("invalide data");
-    }
      return ((nbr1 << 16) + (nbr2 << 8) + nbr3);
 }
 
 int ft_getColorIntegerFromRGB_C(char *str)
 {
-    int nbr1 = 0;
-    int nbr2 = 0;
-    int nbr3 = 0;
-    char *ret;
-    char **ptr;
-    int i;
+    int     nbr1;
+    int     nbr2;
+    int     nbr3;
+    char    **ptr;
+    int     i;
+
     i = 2;
+    nbr1 = 0;
+    nbr2 = 0;
+    nbr3 = 0;
     ptr = ft_split(str, ' ');
     if(ft_strncmp(ptr[0], "C", 2) != 0)
         ft_print_err("ivalide identifer (C)");
-  while(str[i] == ' ')
+    while(str[i] == ' ')
         i++;
     ft_isdigit(str+i);
     nbr1 = ft_atoi(str+i);
-    while(str[i] != '\0' && (str[i] == ' ' || (str[i] >= '0' && str[i] <= '9')))
-        i++;
-    if(str[i] != ',')
-        ft_print_err("invalid dsd");
-    while(str[i+1] == ' ')
-        i++;
-    ft_isdigit(str+i+1);
-    nbr2 = ft_atoi(str+i+1);
+    nbr2 = get_nbr(&str, &i);
     i++;
-    while(str[i] != '\0' && (str[i] == ' ' || (str[i] >= '0' && str[i] <= '9')))
-        i++;
-    if(str[i] != ',')
-        ft_print_err("invalid dsd");
-    while(str[i+1] == ' ')
-        i++;
-    ft_isdigit(str+i+1);
-    nbr3 = ft_atoi(str+i+1);
-    while(str[i+1] != '\0' && str[i+1] >= '0' && str[i+1] <= '9')
-        i++;
-    if(str[i+1] != '\0')
-        ft_print_err("invalid nbr");
-    if (nbr1 > 255 || nbr2 > 255 || nbr3 > 255 || nbr1 < 0 || nbr2 < 0 || nbr3 < 0)
-    {
+    nbr3 = get_nbr(&str, &i);
+    check_after_getnbr(&str, &i);
+    if (nbr1 > 255 || nbr2 > 255 || nbr3 > 255
+    || nbr1 < 0 || nbr2 < 0 || nbr3 < 0)
         ft_print_err("invalide data");
-    }
      return ((nbr1 << 16) + (nbr2 << 8) + nbr3);
 }

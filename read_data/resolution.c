@@ -21,7 +21,7 @@ void	ft_getresolution(char *str)
 	int		d_window_height;
 
 	i = 0;
-	mlx_get_screen_size(data.mlx_ptr, &d_window_width, &d_window_height);
+	// mlx_get_screen_size(data.mlx_ptr, &d_window_width, &d_window_height);
 	ptr = ft_split(str, ' ');
 	if (ft_strncmp(ptr[0], "R", 2) != 0)
 		ft_print_err("ivalide identifer (R)");
@@ -36,8 +36,8 @@ void	ft_getresolution(char *str)
 		ft_print_err("Invalid Resolution");
 	if (data_cub.R_x <= 0 || data_cub.R_y <= 0)
 		ft_print_err("Invalid Resolution");
-	if (data_cub.R_x > d_window_width)
-		data_cub.R_x = d_window_width;
-	if (data_cub.R_y > d_window_height)
-		data_cub.R_y = d_window_height;
+	// if (data_cub.R_x > d_window_width)
+	// 	data_cub.R_x = d_window_width;
+	// if (data_cub.R_y > d_window_height)
+	// 	data_cub.R_y = d_window_height;
 }

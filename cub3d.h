@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbensarg <sbensarg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chicky <chicky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 20:25:51 by sbensarg          #+#    #+#             */
-/*   Updated: 2020/12/27 12:19:12 by sbensarg         ###   ########.fr       */
+/*   Updated: 2020/12/28 22:02:31 by chicky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,30 +24,30 @@
 
 #define MAX_VALUE 2147483647
 
-#define KEY_UP 126
-#define KEY_DOWN 125
-#define KEY_LEFT 123
-#define KEY_RIGHT 124
-#define esc 53
+// #define KEY_UP 126
+// #define KEY_DOWN 125
+// #define KEY_LEFT 123
+// #define KEY_RIGHT 124
+// #define esc 53
 
-#define KEY_W 13
-#define KEY_S 1
-#define KEY_A 0
-#define KEY_D 2
-#define PI 3.14159
+// #define KEY_W 13
+// #define KEY_S 1
+// #define KEY_A 0
+// #define KEY_D 2
+// #define PI 3.14159
 
 //for ununtu
-// #define KEY_UP 65362
-// #define KEY_DOWN 65364
-// #define KEY_LEFT 65361
-// #define KEY_RIGHT 65363
+#define KEY_UP 65362
+#define KEY_DOWN 65364
+#define KEY_LEFT 65361
+#define KEY_RIGHT 65363
 
-// #define KEY_W 119
-// #define KEY_S 115
-// #define KEY_A 97
-// #define KEY_D 100
-// #define esc 65307
-// #define PI 3.14159
+#define KEY_W 119
+#define KEY_S 115
+#define KEY_A 97
+#define KEY_D 100
+#define esc 65307
+#define PI 3.14159
 
 
 int		texturenum;
@@ -206,6 +206,11 @@ int				ft_getColorIntegerFromRGB_C(char *str);
 void			ft_read_texture_from_cub(char *str);
 char			*check_identifer(char *str);
 char			*check_S(char *str);
+void			ft_read_NO(char **str);
+void			ft_read_SO(char **str);
+void			ft_read_WE(char **str);
+void			ft_read_EA(char **str);
+void			ft_read_S(char **str);
 
 float *raydistance;
 #endif

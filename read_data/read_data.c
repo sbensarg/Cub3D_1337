@@ -15,10 +15,12 @@
 
 void	ft_getcolor_f(char **ret)
 {
+	char *ret1;
+	ret1 = *ret;
 	if (data_cub.F == -1)
 	{
-		if (ret[1] != '\0' && ret[2] != '\0')
-			data_cub.F = ft_getColorIntegerFromRGB_F(*ret);
+		if (ret1[1] != '\0' && ret1[2] != '\0')
+			data_cub.F = ft_getColorIntegerFromRGB_F(ret1);
 		else
 			ft_print_err("Floor color is empty");
 	}
@@ -28,11 +30,13 @@ void	ft_getcolor_f(char **ret)
 
 void	ft_getcolor_c(char **ret)
 {
+	char *ret1;
+	ret1 = *ret;
 	if (data_cub.C == -1)
 	{
-		if (ret[1] != '\0' && ret[2] != '\0')
+		if (ret1[1] != '\0' && ret1[2] != '\0')
 		{
-			data_cub.C = ft_getColorIntegerFromRGB_C(*ret);
+			data_cub.C = ft_getColorIntegerFromRGB_C(ret1);
 		}
 		else
 			ft_print_err("C color is empty");
@@ -43,19 +47,24 @@ void	ft_getcolor_c(char **ret)
 
 void	ft_getmap(char **str, char **ret)
 {
-	if (is_all() == 1 && is_valide(*str) == 1)
+	char *str1;
+	char *ret1;
+
+	str1 = *str;
+	ret1 = *ret;
+	if (is_all() == 1 && is_valide(str1) == 1)
 	{
-		sprite.num_sprites += ft_checksprite(*str);
-		ft_read_map(*str);
-		check_border(*str);
-		check_spaces(*str);
+		sprite.num_sprites += ft_checksprite(str1);
+		ft_read_map(str1);
+		check_border(str1);
+		check_spaces(str1);
 		data_cub.map_j++;
 	}
-	else if (str[0] == '\0' && data_cub.map_j > 0)
+	else if (str1[0] == '\0' && data_cub.map_j > 0)
 	{
 		ft_print_err("empty line in map");
 	}
-	else if (is_valide(*ret) != 1 && data_cub.map_j > 0)
+	else if (is_valide(ret1) != 1 && data_cub.map_j > 0)
 	{
 		ft_print_err("line in map not valide");
 	}

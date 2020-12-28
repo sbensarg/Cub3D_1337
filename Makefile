@@ -12,12 +12,12 @@
 
 SRCS =  GNL/*.c cub3d.c cub3d_utils.c read_data/*.c ft_atoi.c ft_strtrim.c ft_memcpy.c ft_split.c ft_strncmp.c ft_strjoin.c ft_strdup.c ft_strlen.c ft_substr.c init_functions.c render_map.c render_player.c render_rays.c render_sprites.c write_bmp.c -D BUFFER_SIZE=10
 
-all:
-	gcc  -I minilibx -lmlx libmlx.dylib -framework OpenGL -framework AppKit $(SRCS) -o cub3D
-	# ./cub3d map.cub
 # all:
-# 	gcc $(SRCS) libmlx.a -lm -lX11 -lXext -o cub3d
-# 	./cub3d map.cub
+# 	gcc  -I minilibx -lmlx libmlx.dylib -framework OpenGL -framework AppKit $(SRCS) -o cub3D
+# 	# ./cub3d map.cub
+all:
+	gcc $(SRCS) libmlx.a -lm -lX11 -lXext -o cub3d
+	./cub3d map.cub
 
 test:
 	gcc -I minilibx -lmlx -framework OpenGL -framework AppKit -g cub3d_test.c cub3d_utils.c -o cub3d_map
