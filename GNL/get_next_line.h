@@ -6,7 +6,7 @@
 /*   By: sbensarg <sbensarg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/01 22:08:07 by sbensarg          #+#    #+#             */
-/*   Updated: 2020/10/15 00:02:28 by sbensarg         ###   ########.fr       */
+/*   Updated: 2020/12/28 15:29:46 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-
-
 
 size_t			ft_strlen(const char *str);
 void			*ft_memcpy(void *dest, char *src, size_t n);
