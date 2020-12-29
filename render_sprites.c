@@ -3,65 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   render_sprites.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbensarg <sbensarg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chicky <chicky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 18:08:03 by sbensarg          #+#    #+#             */
-/*   Updated: 2020/12/28 11:33:23 by sbensarg         ###   ########.fr       */
+/*   Updated: 2020/12/29 15:47:12 by chicky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-
-int putray_forsprite(float dist, float angle)
-{
-    int xa;
-    int ya;
-    int j = 0;
-    int found = 0;
-    
-   	angle = fmod(angle, 2 * PI);
-	if (angle < 0)
-		angle = (2 * PI) + angle;
-    while(j < dist)
-    {
-        xa = player.x - cos(angle) * (j);
-        ya = player.y - sin(angle) * (j);
-        if(iswall(xa, ya) == 1)   
-            return (0);
-        j++;
-    }
-    return(1);
-}
-
-void ft_bubble_sorte(double *distance)
-{
-    int i;
-    int j;
-    int temp;
-    i = 0;
-    j = 0;
-    while(i + 1 < sprite.num_sprites)
-    {
-        if(distance[i] < distance[i+1])
-        {
-            temp = distance[i];
-            distance[i] = distance[i+1];
-            distance[i+1] = temp;
-
-            temp = sprite.sprite_map[i][0];
-            sprite.sprite_map[i][0] = sprite.sprite_map[i + 1][0];
-            sprite.sprite_map[i + 1][0] = temp;
-
-            temp = sprite.sprite_map[i][1];
-            sprite.sprite_map[i][1] = sprite.sprite_map[i + 1][1];
-            sprite.sprite_map[i + 1][1] = temp;
-
-            i = -1;
-        }
-        i++;
-    }
-}
 
 void ft_sortsprites()
 {
@@ -71,125 +21,97 @@ void ft_sortsprites()
     sprite.spritedistance = malloc(sizeof(double) * sprite.num_sprites);
     while (l < sprite.num_sprites)
     {
-       sprite.spritedistance[l] = sqrt((player.x - sprite.sprite_map[l][1]) * (player.x - sprite.sprite_map[l][1]) + (player.y - sprite.sprite_map[l][0]) * (player.y - sprite.sprite_map[l][0]));
+       sprite.spritedistance[l] = sqrt((player.x - sprite.sprite_map[l][1])
+       * (player.x - sprite.sprite_map[l][1])
+       + (player.y - sprite.sprite_map[l][0])
+       * (player.y - sprite.sprite_map[l][0]));
         l++;
     }
     ft_bubble_sorte(sprite.spritedistance);
     
 } 
 
-void draw_sprite(int x, int y, int height, int ray, int nbrofrays)
+void calc_sprite_angle()
 {
-    int j;
-    unsigned int color;
-    int i;
-    
-    j = 0;
-    i = 0;
-    while (j < height)
+    sprite.spriteangle =  atan2(player.y - sprite.sprite_map[sprite.l][0],
+    player.x - sprite.sprite_map[sprite.l][1]);
+    sprite.spriteangle = fmod_angle(sprite.spriteangle);
+    sprite.fxa = sprite.sprite_map[sprite.l][1]
+    - cos(sprite.spriteangle - 1.5708) * (consts.tile_size/2);
+    sprite.fya = sprite.sprite_map[sprite.l][0]
+    - sin(sprite.spriteangle - 1.5708) * (consts.tile_size/2);
+    sprite.firstangle =  atan2(player.y - sprite.fya, player.x - sprite.fxa);
+    sprite.lxa = sprite.sprite_map[sprite.l][1]
+    - cos(sprite.spriteangle + 1.5708) * (consts.tile_size/2);
+    sprite.lya = sprite.sprite_map[sprite.l][0]
+    - sin(sprite.spriteangle + 1.5708) * (consts.tile_size/2);
+    sprite.lastangle =  atan2(player.y - sprite.lya, player.x - sprite.lxa);
+    sprite.firstangle = fmod_angle(sprite.firstangle);
+    sprite.lastangle = fmod_angle(sprite.lastangle);
+            if(sprite.lastangle < sprite.firstangle)
+            sprite.lastangle += (2 * PI);
+}
+
+void    calc_x()
+{
+    while (sprite.j < sprite.nbrofrays)
     {
-        if (y + j >= 0 && y + j < consts.display_window_height)
+        sprite.firstangle = fmod_angle(sprite.firstangle);
+        calc_stripheight();
+        if ((sprite.firstangle >= sprite.startfov
+        && sprite.firstangle <= sprite.startfov + consts.fov_ang))
         {
-            color = ft_read_from_memory(texture[4],texture[4].tw * ray / nbrofrays,texture[4].th * j / height);
-            if (color != 0x0000)
-                my_mlx_pixel_put(x, y + j, color);
+            sprite.x = fabs(sprite.startfov - sprite.firstangle)
+            / consts.angleinc;
+            break;
         }
-        j++;
+        else if(sprite.firstangle <= sprite.endfov
+        && sprite.startfov + consts.fov_ang > 2 * PI)
+        {
+            sprite.x = consts.display_window_width - (fabs(sprite.firstangle
+            - fmod(sprite.startfov + consts.fov_ang, 2 * PI))
+            / consts.angleinc);
+            break;
+        }
+        sprite.j++;
+        sprite.firstangle += consts.angleinc;
     }
 }
-void    rendersprites()
+
+void draw_sprite()
 {
-    float   spriteangle;
-    float   firstangle;
-    float   lastangle;
-    float   size_sprite = 0;
-    float     startfov;
-    float      endfov;
-    float   ray_lenght = 0;
-    float   distanceprojectionplane;
-    float   correctdist;
-    float   stripheight;
-    int x;
-    int l;
-    int xa;
-    int ya;
-    int firstrayanglesprite;
-    int lastrayanglesprite;
-    int fxa, fya;
-    int lxa, lya;
-    int v = 0;
-    int     *spriteorder;
-    double  *spritedistance;
-    
-    ft_sortsprites();
-    l = 0;
-    int j = 0;
-    int i = 0;
-    spriteangle = 0;
-    startfov = player.rotationangle - (consts.fov_ang / 2);
-    startfov = fmod(startfov, 2 * PI);
-	if (startfov < 0)
-		startfov = (2 * PI) + startfov;
-    endfov = player.rotationangle + (consts.fov_ang / 2);
-    endfov = fmod(endfov, 2 * PI);
-	if (endfov < 0)
-		endfov = (2 * PI) + endfov;
-    while (l < sprite.num_sprites)
+    while (sprite.j < sprite.nbrofrays)
     {
-        spriteangle =  atan2(player.y - sprite.sprite_map[l][0], player.x - sprite.sprite_map[l][1]);
-        spriteangle = fmod(spriteangle, 2 * PI);
-        if (spriteangle < 0)
-            spriteangle = (2 * PI) + spriteangle;
-                fxa = sprite.sprite_map[l][1] - cos(spriteangle - 1.5708) * (consts.tile_size/2);
-                fya = sprite.sprite_map[l][0] - sin(spriteangle - 1.5708) * (consts.tile_size/2);
-                firstangle =  atan2(player.y - fya, player.x - fxa);
-                lxa = sprite.sprite_map[l][1] - cos(spriteangle + 1.5708) * (consts.tile_size/2);
-                lya = sprite.sprite_map[l][0] - sin(spriteangle + 1.5708) * (consts.tile_size/2);
-                lastangle =  atan2(player.y - lya, player.x - lxa);
-                firstangle = fmod(firstangle, 2 * PI); 
-                lastangle = fmod(lastangle, 2 * PI);
-                x = -1;
-                if (lastangle < 0)
-                    lastangle = (2 * PI) + lastangle;
-                if (firstangle < 0)
-                        firstangle = (2 * PI) + firstangle;
-                if(lastangle < firstangle)
-                    lastangle += (2 * PI);
-                j= 0;
-                int nbrofrays = fabs(firstangle - lastangle) / consts.angleinc;
-                
-                while (j < nbrofrays)
-                {
-                    firstangle = fmod(firstangle, 2 * PI); 
-                    if (firstangle < 0)
-                        firstangle = (2 * PI) + firstangle;
-                    correctdist =  sprite.spritedistance[l] / cos(fabs(spriteangle - firstangle));
-                    distanceprojectionplane = (consts.window_width / 2) / tan(consts.fov_ang / 2);
-		            size_sprite = (consts.tile_size / correctdist) * distanceprojectionplane;
-                    stripheight = (size_sprite * consts.display_window_width) / consts.window_width;
-                    if ((firstangle >= startfov && firstangle <= startfov + consts.fov_ang))
-                    {
-                        x = fabs(startfov - firstangle) / consts.angleinc;
-                        break;
-                    }
-                    else if(firstangle <= fmod(startfov + consts.fov_ang, 2 * PI) && startfov + consts.fov_ang > 2 * PI)
-                    {
-                        x = consts.display_window_width - (fabs(firstangle - fmod(startfov + consts.fov_ang, 2 * PI)) / consts.angleinc);
-                        break;
-                    }
-                    j++;
-                    firstangle += consts.angleinc;
-              }
-              while (j < nbrofrays)
-              {
-                    if (x != -1 && raydistance[x] > sprite.spritedistance[l])
-                    {
-                        draw_sprite(x, consts.display_window_height/2 - stripheight/2, stripheight, j, nbrofrays);
-                    }
-                    x++;
-                    j++;
-              }
-         l++;
+        if (sprite.x != -1 &&
+        raydistance[sprite.x] > sprite.spritedistance[sprite.l])
+        {
+            putpixel_sprite(sprite.x,
+            consts.display_window_height/2 - sprite.stripheight/2,
+            sprite.stripheight);
+        }
+        sprite.x++;
+        sprite.j++;
+    }
+}
+
+void    rendersprites()
+{    
+    ft_sortsprites();
+    sprite.l = 0;
+    sprite.j = 0;
+    sprite.spriteangle = 0;
+    sprite.size_sprite = 0;
+    sprite.ray_lenght = 0;
+    while (sprite.l < sprite.num_sprites)
+    {
+        calc_sprite_angle();
+        sprite.x = -1;
+        sprite.j = 0;
+        sprite.nbrofrays = fabs(sprite.firstangle - sprite.lastangle)
+        / consts.angleinc; 
+        calc_x();   
+        draw_sprite();
+    sprite.l++;
     }
     free(raydistance);
 }

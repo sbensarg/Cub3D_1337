@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbensarg <sbensarg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chicky <chicky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 20:25:51 by sbensarg          #+#    #+#             */
-/*   Updated: 2020/12/29 12:40:44 by sbensarg         ###   ########.fr       */
+/*   Updated: 2020/12/29 15:48:39 by chicky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,24 @@ typedef struct s_sprite {
 int**	sprite_map;
 int		num_sprites;
 double 	*spritedistance;
+float   spriteangle;
+float   firstangle;
+float   lastangle;
+float   size_sprite;
+float	startfov;
+float	endfov;
+float   ray_lenght;
+float   distanceprojectionplane;
+float   correctdist;
+float   stripheight;
+int		nbrofrays;
+int		x;
+int		j;
+int		l;
+int		fxa;
+int		fya;
+int 	lxa;
+int		lya;
 }				t_sprite;
 
 typedef struct s_hozinter{
@@ -204,7 +222,7 @@ int				iswall(float x,	float y);
 int				nextposallowed(float newplayerx, float newplayery);
 unsigned int    ft_read_from_memory(t_data texture, int x, int y);
 void			write_bmp(char *filename, char rgb[]);
-void			fmod_angle(float angle);
+float			fmod_angle(float angle);
 void			rendersprites();
 float			putray(float angle);
 void			ft_print_err(char *s);
@@ -241,6 +259,13 @@ void			ft_read_so(char **str);
 void			ft_read_we(char **str);
 void			ft_read_ea(char **str);
 void			ft_read_s(char **str);
+void			draw_wall(int tilex, int tiley, int height);
+int				ft_nexthorztinter(float *horzwallhitx, float *horzwallhity);
+int				ft_nextvertinter(float *vertwallhitx, float *vertwallhity);
+void			calc_stripheight();
+void			putpixel_sprite(int x, int y, int height);
+void			ft_bubble_sorte(double *distance);
+
 
 float *raydistance;
 #endif

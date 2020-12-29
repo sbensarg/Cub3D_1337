@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbensarg <sbensarg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chicky <chicky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 12:44:34 by sbensarg          #+#    #+#             */
-/*   Updated: 2020/12/24 18:03:07 by sbensarg         ###   ########.fr       */
+/*   Updated: 2020/12/29 15:09:51 by chicky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,10 @@ void	init_consts(void)
 	consts.angleinc = consts.fov_ang / consts.num_of_rays;
 	consts.first_ray_ang = player.rotationangle - (consts.fov_ang / 2);
 	consts.last_ray_ang = player.rotationangle + (consts.fov_ang / 2);
+	sprite.startfov = player.rotationangle - (consts.fov_ang / 2);
+    sprite.startfov = fmod_angle(sprite.startfov);
+    sprite.endfov = player.rotationangle + (consts.fov_ang / 2);
+    sprite.endfov = fmod_angle(sprite.endfov);
 }
 
 void    position_initial_player()
@@ -69,9 +73,10 @@ void	init_player(void)
 	player.rotationspeed = 5 * (PI / 180);
 }
 
-void	fmod_angle(float angle)
+float	fmod_angle(float angle)
 {
     angle = fmod(angle, 2 * PI);
         if (angle < 0)
             angle = (2 * PI) + angle;
+		return(angle);
 }
