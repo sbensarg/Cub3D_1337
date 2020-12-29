@@ -1,34 +1,49 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sbensarg <sbensarg@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/29 10:41:22 by sbensarg          #+#    #+#             */
+/*   Updated: 2020/12/29 10:48:21 by sbensarg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
-void            my_mlx_pixel_put(int x, int y, int color)
+void			my_mlx_pixel_put(int x, int y, int color)
 {
-    char    *dst;
+	char	*dst;
 
-	if (x >= 0 && x < consts.display_window_width && y >= 0 && y < consts.display_window_height)
+	if (x >= 0 && x < consts.display_window_width && y >= 0
+			&& y < consts.display_window_height)
 	{
-    	dst = img.addr + (y * img.line_length + x * (img.bits_per_pixel / 8));
-    	*(unsigned int*)dst = color;
+		dst = img.addr + (y * img.line_length + x * (img.bits_per_pixel / 8));
+		*(unsigned int*)dst = color;
 	}
 }
-unsigned int    ft_read_from_memory(t_data texture, int x, int y)
+
+unsigned int	ft_read_from_memory(t_data texture, int x, int y)
 {
-    char    *dst;
+	char	*dst;
+
 	if (x >= 0 && x < texture.tw && y >= 0 && y < texture.th)
 	{
-    	dst = texture.addr + (y * texture.line_length + x * (texture.bits_per_pixel / 8));
-    	return (*(unsigned int*)dst);
+		dst = texture.addr +
+		(y * texture.line_length + x * (texture.bits_per_pixel / 8));
+		return (*(unsigned int*)dst);
 	}
-	return 0;
+	return (0);
 }
 
-
-int		nextposallowed(float newplayerx, float newplayery)
+int				nextposallowed(float newplayerx, float newplayery)
 {
 	int	gridx;
 	int	gridy;
 
 	if (newplayerx < 0 || newplayerx > consts.window_width
-	|| newplayery < 0 || newplayery > consts.window_height)
+			|| newplayery < 0 || newplayery > consts.window_height)
 		return (1);
 	if (player.x - newplayerx <= 0)
 		newplayerx += player.radius + 1;
@@ -43,7 +58,7 @@ int		nextposallowed(float newplayerx, float newplayery)
 	return (data_cub.map[gridy][gridx]);
 }
 
-int		iswall(float x,	float y)
+int				iswall(float x, float y)
 {
 	int	gridx;
 	int	gridy;
@@ -52,8 +67,5 @@ int		iswall(float x,	float y)
 		return (1);
 	gridx = floor(x / consts.tile_size);
 	gridy = floor(y / consts.tile_size);
-
 	return (data_cub.map[gridy][gridx]);
 }
-
-

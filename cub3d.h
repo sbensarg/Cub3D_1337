@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chicky <chicky@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sbensarg <sbensarg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 20:25:51 by sbensarg          #+#    #+#             */
-/*   Updated: 2020/12/28 22:02:31 by chicky           ###   ########.fr       */
+/*   Updated: 2020/12/29 12:40:44 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,30 +24,30 @@
 
 #define MAX_VALUE 2147483647
 
-// #define KEY_UP 126
-// #define KEY_DOWN 125
-// #define KEY_LEFT 123
-// #define KEY_RIGHT 124
-// #define esc 53
+#define KEY_UP 126
+#define KEY_DOWN 125
+#define KEY_LEFT 123
+#define KEY_RIGHT 124
+#define esc 53
 
-// #define KEY_W 13
-// #define KEY_S 1
-// #define KEY_A 0
-// #define KEY_D 2
-// #define PI 3.14159
+#define KEY_W 13
+#define KEY_S 1
+#define KEY_A 0
+#define KEY_D 2
+#define PI 3.14159
 
 //for ununtu
-#define KEY_UP 65362
-#define KEY_DOWN 65364
-#define KEY_LEFT 65361
-#define KEY_RIGHT 65363
+// #define KEY_UP 65362
+// #define KEY_DOWN 65364
+// #define KEY_LEFT 65361
+// #define KEY_RIGHT 65363
 
-#define KEY_W 119
-#define KEY_S 115
-#define KEY_A 97
-#define KEY_D 100
-#define esc 65307
-#define PI 3.14159
+// #define KEY_W 119
+// #define KEY_S 115
+// #define KEY_A 97
+// #define KEY_D 100
+// #define esc 65307
+// #define PI 3.14159
 
 
 int		texturenum;
@@ -115,6 +115,19 @@ typedef struct
 {
 	float	angel;
 	int		ray;
+	float	v_wallhitx;
+	float	v_wallhity;
+	float	h_wallhitx;
+	float	h_wallhity;
+	float	distance;
+	float	horz_hit_distance;
+	float	vert_hit_distance;
+	int 	vert;
+	float	ray_lenght;
+	float	distanceprojectionplane;
+	int		wallstripheight;
+	int		wallstripheight_d;
+	float	correctdist;
 }					t_ray;
 
 typedef struct  s_datacub {
@@ -142,6 +155,21 @@ int		num_sprites;
 double 	*spritedistance;
 }				t_sprite;
 
+typedef struct s_hozinter{
+	int	foundhorzwallhit;
+	float	xstep;
+	float	ystep;
+	float	nexthorztouchy;
+	float	nexthorztouchx;
+}				t_hozinter;
+
+typedef struct s_vertinter{
+	int	foundvertwallhit;
+	float	xstep;
+	float	ystep;
+	float	nextverttouchy;
+	float	nextverttouchx;
+}				t_vertinter;
 t_player	player;
 t_data		img;
 t_data		texture[5];
@@ -151,6 +179,8 @@ t_consts	consts;
 t_ray		ray;
 t_datacub	data_cub;
 t_sprite	sprite;
+t_hozinter  hozinter;
+t_vertinter vertinter;
 
 void            my_mlx_pixel_put(int x, int y, int color);
 int				ft_read_from_dotcub(char *filename);
@@ -201,16 +231,16 @@ void			map(int *i, int *j, int *k, int *l);
 void			ft_rempli_map();
 void			ft_rempli_spaces();
 void			ft_getresolution(char *str);
-int				ft_getColorIntegerFromRGB_F(char *str);
-int				ft_getColorIntegerFromRGB_C(char *str);
+int				ft_getcolorintegerfromrgb_f(char *str);
+int				ft_getcolorintegerfromrgb_c(char *str);
 void			ft_read_texture_from_cub(char *str);
 char			*check_identifer(char *str);
-char			*check_S(char *str);
-void			ft_read_NO(char **str);
-void			ft_read_SO(char **str);
-void			ft_read_WE(char **str);
-void			ft_read_EA(char **str);
-void			ft_read_S(char **str);
+char			*check_s(char *str);
+void			ft_read_no(char **str);
+void			ft_read_so(char **str);
+void			ft_read_we(char **str);
+void			ft_read_ea(char **str);
+void			ft_read_s(char **str);
 
 float *raydistance;
 #endif

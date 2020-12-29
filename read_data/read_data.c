@@ -6,7 +6,7 @@
 /*   By: sbensarg <sbensarg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 23:59:01 by sbensarg          #+#    #+#             */
-/*   Updated: 2020/12/28 17:10:18 by sbensarg         ###   ########.fr       */
+/*   Updated: 2020/12/29 10:32:22 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@
 void	ft_getcolor_f(char **ret)
 {
 	char *ret1;
+
 	ret1 = *ret;
 	if (data_cub.F == -1)
 	{
 		if (ret1[1] != '\0' && ret1[2] != '\0')
-			data_cub.F = ft_getColorIntegerFromRGB_F(ret1);
+			data_cub.F = ft_getcolorintegerfromrgb_f(ret1);
 		else
 			ft_print_err("Floor color is empty");
 	}
@@ -31,12 +32,13 @@ void	ft_getcolor_f(char **ret)
 void	ft_getcolor_c(char **ret)
 {
 	char *ret1;
+
 	ret1 = *ret;
 	if (data_cub.C == -1)
 	{
 		if (ret1[1] != '\0' && ret1[2] != '\0')
 		{
-			data_cub.C = ft_getColorIntegerFromRGB_C(ret1);
+			data_cub.C = ft_getcolorintegerfromrgb_c(ret1);
 		}
 		else
 			ft_print_err("C color is empty");
