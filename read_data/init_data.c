@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbensarg <sbensarg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbensarg <sbensarg@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/27 12:06:24 by sbensarg          #+#    #+#             */
-/*   Updated: 2020/12/28 11:57:37 by sbensarg         ###   ########.fr       */
+/*   Updated: 2021/01/02 18:44:19 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	init_data(void)
 	data_cub.playerJ = 0;
 	data_cub.playerI = 0;
 	data_cub.string_map = ft_strdup("\n");
+	ft_add_to_freeall(data_cub.string_map);
 }
 
 void	ft_check_param(void)

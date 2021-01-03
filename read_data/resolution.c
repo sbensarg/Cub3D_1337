@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   resolution.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chicky <chicky@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sbensarg <sbensarg@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/27 12:05:10 by sbensarg          #+#    #+#             */
-/*   Updated: 2020/12/29 15:50:21 by chicky           ###   ########.fr       */
+/*   Updated: 2021/01/02 18:38:54 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,21 @@ void	ft_getresolution(char *str)
 	i = 0;
 	mlx_get_screen_size(data.mlx_ptr, &d_window_width, &d_window_height);
 	ptr = ft_split(str, ' ');
+	while (ptr[i++])
+		ft_add_to_freeall(ptr[i - 1]);
+	ft_add_to_freeall(ptr);
 	if (ft_strncmp(ptr[0], "R", 2) != 0)
 		ft_print_err("ivalide identifer (R)");
-	if (ptr[3] != NULL)
-		ft_print_err("too many argument");
-	data_cub.R_x = ft_atoi(ptr[1]);
-	data_cub.R_y = ft_atoi(ptr[2]);
+	if (ptr[1] == NULL)
+		ft_print_err("invalide arg1");
+	if (ptr[2] == NULL)
+		ft_print_err("invalide arg2");
 	ft_isdigit(ptr[1]);
 	ft_isdigit(ptr[2]);
+	data_cub.R_x = ft_atoi(ptr[1]);
+	data_cub.R_y = ft_atoi(ptr[2]);
+	if (ptr[3] != NULL)
+		ft_print_err("too many argument");
 	if ((len_num(data_cub.R_y) != strlen(ptr[2]))
 	|| (len_num(data_cub.R_x) != strlen(ptr[1])))
 		ft_print_err("Invalid Resolution");

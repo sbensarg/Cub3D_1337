@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rempli_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbensarg <sbensarg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbensarg <sbensarg@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/27 11:38:20 by sbensarg          #+#    #+#             */
-/*   Updated: 2020/12/28 17:53:00 by sbensarg         ###   ########.fr       */
+/*   Updated: 2021/01/02 18:46:28 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ void	ft_read_map(char *str)
 	i = 1;
 	len = ft_strlen1(str);
 	str = ft_strjoin1(str, "\n");
+	ft_add_to_freeall(str);
 	data_cub.string_map = ft_strjoin1(data_cub.string_map, str);
+	ft_add_to_freeall(data_cub.string_map);
 	if (len > data_cub.map_i)
 		data_cub.map_i = len;
 }
@@ -32,11 +34,13 @@ void	ft_init_map(void)
 	int j;
 
 	j = 0;
-	i = 0;
 	data_cub.map = malloc(data_cub.map_j * sizeof(int*));
+	ft_add_to_freeall(data_cub.map);
 	while (j < data_cub.map_j)
 	{
 		data_cub.map[j] = malloc(data_cub.map_i * sizeof(int));
+		ft_add_to_freeall(data_cub.map[j]);
+		i = 0;
 		while (i <= data_cub.map_i)
 		{
 			data_cub.map[j][i] = -1;

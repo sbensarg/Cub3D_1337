@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbensarg <sbensarg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbensarg <sbensarg@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 16:28:20 by sbensarg          #+#    #+#             */
-/*   Updated: 2020/12/20 19:42:35 by sbensarg         ###   ########.fr       */
+/*   Updated: 2020/12/31 16:29:15 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "cub3d.h"
 
-
-static int	max_int(long a, int s)
+static int		max_int(long a, int s)
 {
 	if (a > 9223372036854775807)
 	{
@@ -26,9 +26,9 @@ static int	max_int(long a, int s)
 
 long			ft_atoi(const char *str)
 {
-	long		i;
+	long	i;
 	long	a;
-	long		s;
+	long	s;
 
 	i = 0;
 	a = 0;

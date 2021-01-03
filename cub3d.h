@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chicky <chicky@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sbensarg <sbensarg@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 20:25:51 by sbensarg          #+#    #+#             */
-/*   Updated: 2020/12/29 15:48:39 by chicky           ###   ########.fr       */
+/*   Updated: 2021/01/02 17:44:03 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,15 +100,22 @@ typedef struct
 
 typedef struct
 {
-	float                   x;
-	float 				    y;
-	float 			   radius;
+	float		x;
+	float		y;
+	float		radius;
 	float 		turndirection;
 	float		walkdirection;
 	float 		rotationangle;
 	float 			movespeed;
 	float 		rotationspeed;
 	float		strafe;
+	float	movestep;
+	float	newplayerx;
+	float	newplayery;
+	float	checkplayerx;
+	float	checkplayery;
+	int		posallowed;
+	float angle;
 }					 t_player;
 
 typedef struct
@@ -188,6 +195,21 @@ typedef struct s_vertinter{
 	float	nextverttouchy;
 	float	nextverttouchx;
 }				t_vertinter;
+
+typedef struct s_bmp_file{
+	int		bitmap_size;
+	char	tag[2];
+	int		header[13];
+	char	*bitmap;
+	int		dest;
+	int		src;
+}			t_bmp_file;
+
+typedef struct s_freeall{
+	void			*addr;
+	struct s_freeall	*next;
+}			t_freeall;
+
 t_player	player;
 t_data		img;
 t_data		texture[5];
@@ -199,6 +221,10 @@ t_datacub	data_cub;
 t_sprite	sprite;
 t_hozinter  hozinter;
 t_vertinter vertinter;
+t_bmp_file	bmp;
+t_freeall	*freeall;
+t_freeall	*list;
+
 
 void            my_mlx_pixel_put(int x, int y, int color);
 int				ft_read_from_dotcub(char *filename);
@@ -208,6 +234,7 @@ size_t			ft_strlen1(const char *str);
 char			*ft_strjoin1(char const *s1, char const *s2);
 void			*ft_memcpy1(void *dest, const void *src, size_t n);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
+void			*ft_memset(void *b, int c, size_t len);
 char			*ft_strtrim(char const *s1, char const *set);
 char			**ft_split(char const *s, char c);
 char			*ft_strdup1(char *s1);
@@ -265,7 +292,15 @@ int				ft_nextvertinter(float *vertwallhitx, float *vertwallhity);
 void			calc_stripheight();
 void			putpixel_sprite(int x, int y, int height);
 void			ft_bubble_sorte(double *distance);
-
+void			init_texture(void);
+void			init_rotationangle(void);
+int				ft_close(void);
+int				ft_keypressed(int keycode, void *lol);
+int				ft_keyreleased(int keycode, void *lol);
+int				update(void);
+void			init_struct(void);
+void			ft_add_to_freeall(void *addr);
+void			freestrct();
 
 float *raydistance;
 #endif

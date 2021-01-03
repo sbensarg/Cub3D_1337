@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_data_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbensarg <sbensarg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbensarg <sbensarg@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/27 11:44:11 by sbensarg          #+#    #+#             */
-/*   Updated: 2020/12/28 17:36:10 by sbensarg         ###   ########.fr       */
+/*   Updated: 2021/01/01 17:15:09 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,14 @@ int		is_valide(char *str)
 	int i;
 
 	i = 0;
-	if (str[i] != '\0')
+	while (str[i] != '\0')
 	{
-		if (str[i] == '1' || str[i] == '0' || str[i] == ' ' || str[i] == '2'
-		|| str[i] == 'N' || str[i] == 'S' || str[i] == 'W' || str[i] == 'E')
-			return (1);
-		else
-			ft_print_err("line in map not valide!!");
+		if (str[i] != '1' && str[i] != '0' && str[i] != ' ' && str[i] != '2'
+		&& str[i] != 'N' && str[i] != 'S' && str[i] != 'W' && str[i] != 'E')
+			return (0);
+		i++;
 	}
-	return (0);
+	return (1);
 }
 
 int		is_player(int *k)

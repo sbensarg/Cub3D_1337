@@ -3,74 +3,94 @@
 /*                                                        :::      ::::::::   */
 /*   write_bmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbensarg <sbensarg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbensarg <sbensarg@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 02:45:45 by sbensarg          #+#    #+#             */
-/*   Updated: 2020/12/22 20:12:49 by sbensarg         ###   ########.fr       */
+/*   Updated: 2021/01/02 17:32:07 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	header_bmp()
+void	bmp_info_header(int filesize)
 {
-	
+	bmp.header[0] = filesize + 54;
+	bmp.header[1] = 0;
+	bmp.header[2] = 0x36;
+	bmp.header[3] = 0x28;
+	bmp.header[4] = consts.display_window_width;
+	bmp.header[5] = consts.display_window_height;
+	bmp.header[6] = 0x180001;
+	bmp.header[7] = 0;
+	bmp.header[8] = 0;
+	bmp.header[9] = 0;
+	bmp.header[10] = 0;
+	bmp.header[11] = 0;
+	bmp.header[12] = 0;
 }
-void    write_bmp(char *filename, char *rgb)
+
+void	init_bmp(void)
 {
-	int	bitmap_size;
-	int	i = 0;
-	int	j = 0;
-	int	l = 0;
-	//char tag[] = {'B', 'M'};
-	char *tag;
-	tag = malloc(sizeof(char) * 3);
-	 tag[0] = 'B';
-	 tag[1] = 'M';
-	 tag[2] = '\0';
-	//strcpy(tag, "BM");
-    // int header[] = {
-    //     0, 0, 0x36, 0x28, consts.window_width, consts.window_height, 0x180001, 
-    //     0, 0, 0x002e23, 0x002e23, 0, 0
-    // };
-	int *header;
-	header = (int *)malloc(sizeof(int) * 52);
-	bitmap_size = consts.window_width * consts.window_height * 3;
-	header[0] = 54 + bitmap_size;
-	header[1] = 0;
-	header[2] = 0;
-	header[3] = 0x36;
-	header[4] = 0x28;
-	header[5] = consts.window_width;
-	header[6] = consts.window_height;
-	header[7] = 0x180001;
-	header[8] = 0;
-	header[9] = 0;
-	header[10] = 0x002e23;
-	header[11] = 0x002e23;
-	header[12] = 0;
-	header[13] = 0;
-	char *bitmap = (char *) malloc(bitmap_size * sizeof(char));
-	for (int k = 0; k < bitmap_size; k++) 
-		bitmap[k] = 0;
-	j = consts.window_height - 1;
+	int k;
+
+	k = 0;
+	bmp.bitmap = (char *)malloc(bmp.bitmap_size * sizeof(char));
+	ft_add_to_freeall(bmp.bitmap);
+	while (k < bmp.bitmap_size)
+	{
+		bmp.bitmap[k] = 0;
+		k++;
+	}
+}
+
+void	rempli_bmp(char **rgb)
+{
+	int		i;
+	int		j;
+	int		l;
+	char	*rgb1;
+
+	i = 0;
+	j = 0;
+	l = 0;
+	rgb1 = *rgb;
+	j = consts.display_window_height - 1;
 	while (j >= 0)
 	{
-		while (i < consts.window_width)
+		while (i < consts.display_window_width)
 		{
-			int dest = ((l * (consts.window_width * 3) + i * 3));
-			int src = ((j * img.line_length + i * (img.bits_per_pixel / 8)));
-			bitmap[dest] = rgb[src];
-			bitmap[dest + 1] = rgb[src + 1];
-			bitmap[dest + 2] = rgb[src + 2];
+			bmp.dest = ((l * (consts.display_window_width * 3) + i * 3));
+			bmp.src = ((j * img.line_length + i * (img.bits_per_pixel / 8)));
+			bmp.bitmap[bmp.dest] = rgb1[bmp.src];
+			bmp.bitmap[bmp.dest + 1] = rgb1[bmp.src + 1];
+			bmp.bitmap[bmp.dest + 2] = rgb1[bmp.src + 2];
 			i++;
 		}
 		i = 0;
 		j--;
 		l++;
 	}
-	int fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
-	write(fd, tag, 2);
-    write(fd, header, 52);
-    write(fd, bitmap, bitmap_size * sizeof(char));
+}
+
+void	write_bmp(char *filename, char *rgb)
+{
+	int	i;
+	int	j;
+	int	l;
+	int fd;
+
+	i = 0;
+	j = 0;
+	l = 0;
+	bmp.tag[0] = 'B';
+	bmp.tag[1] = 'M';
+	bmp.bitmap_size = consts.display_window_width * consts.display_window_height
+	* 3;
+	bmp_info_header(bmp.bitmap_size);
+	init_bmp();
+	rempli_bmp(&rgb);
+	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
+	write(fd, bmp.tag, 2);
+	write(fd, bmp.header, sizeof(bmp.header));
+	write(fd, bmp.bitmap, bmp.bitmap_size * sizeof(char));
 }

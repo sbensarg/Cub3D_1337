@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rgb.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbensarg <sbensarg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbensarg <sbensarg@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/27 12:02:47 by sbensarg          #+#    #+#             */
-/*   Updated: 2020/12/29 10:25:44 by sbensarg         ###   ########.fr       */
+/*   Updated: 2021/01/02 18:38:29 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,15 @@ int		ft_getcolorintegerfromrgb_f(char *str)
 	char	**ptr;
 	int		i;
 
-	i = 2;
+	i = 0;
 	nbr1 = 0;
 	nbr2 = 0;
 	nbr3 = 0;
 	ptr = ft_split(str, ' ');
+	while (ptr[i++])
+		ft_add_to_freeall(ptr[i-1]);
+	ft_add_to_freeall(ptr);
+	i = 2;
 	if (ft_strncmp(ptr[0], "F", 2) != 0)
 		ft_print_err("ivalide identifer (F)");
 	while (str[i] == ' ')
@@ -79,11 +83,15 @@ int		ft_getcolorintegerfromrgb_c(char *str)
 	char	**ptr;
 	int		i;
 
-	i = 2;
+	i = 0;
 	nbr1 = 0;
 	nbr2 = 0;
 	nbr3 = 0;
 	ptr = ft_split(str, ' ');
+	while (ptr[i++])
+		ft_add_to_freeall(ptr[i-1]);
+	ft_add_to_freeall(ptr);
+	i = 2;
 	if (ft_strncmp(ptr[0], "C", 2) != 0)
 		ft_print_err("ivalide identifer (C)");
 	while (str[i] == ' ')

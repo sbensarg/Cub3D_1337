@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbensarg <sbensarg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbensarg <sbensarg@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 23:59:01 by sbensarg          #+#    #+#             */
-/*   Updated: 2020/12/29 10:32:22 by sbensarg         ###   ########.fr       */
+/*   Updated: 2021/01/03 16:09:05 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,9 @@ void	ft_getmap(char **str, char **ret)
 	{
 		sprite.num_sprites += ft_checksprite(str1);
 		ft_read_map(str1);
+		data_cub.map_j++;
 		check_border(str1);
 		check_spaces(str1);
-		data_cub.map_j++;
-	}
-	else if (str1[0] == '\0' && data_cub.map_j > 0)
-	{
-		ft_print_err("empty line in map");
 	}
 	else if (is_valide(ret1) != 1 && data_cub.map_j > 0)
 	{
@@ -77,12 +73,17 @@ void	ft_readfromdotcubpart2(char *str)
 	char *tmp;
 	char *ret;
 
-	tmp = ft_strdup1(str);
-	ret = ft_strtrim(tmp, " ");
+	ret = ft_strtrim(str, " ");
+	ft_add_to_freeall(ret);
 	if (ret[0] != '\0')
 	{
 		if (ret[0] == 'R')
-			ft_getresolution(ret);
+		{
+			if (ret[2] != '\0' && ret[1] != '\0')
+				ft_getresolution(ret);
+			else
+				ft_print_err("Resolution is empty");
+		}
 		else if (ret[0] == 'N' || ret[0] == 'S'
 				|| ret[0] == 'W' || ret[0] == 'E')
 			ft_read_texture_from_cub(ret);
@@ -109,13 +110,18 @@ int		ft_read_from_dotcub(char *filename)
 	init_data();
 	while ((r = get_next_line(fd, &str)) > 0)
 	{
+		ft_add_to_freeall(str);
+		if (str[0] == '\0' && data_cub.map_j > 0)
+			ft_print_err("empty line in map");
 		if (is_all1() != 1 && (str[0] == '\0'))
 			continue ;
 		ft_readfromdotcubpart2(str);
 	}
+	if (str[0] == '\0' && data_cub.map_j > 0)
+		ft_print_err("empty line in map");
 	ft_readfromdotcubpart2(str);
+	ft_add_to_freeall(str);
 	ft_check_param();
-	ft_init_map();
 	ft_rempli_map();
 	check_player();
 	check_tab_spaces();
