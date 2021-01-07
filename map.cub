@@ -1,10 +1,10 @@
 F 122,122,122
-SO  ./cub3d_destroyer/wolftex/textures/xpm/redbrick.xpm
-EA ./cub3d_destroyer/wolftex/textures/xpm/wood.xpm
-NO    ./cub3d_destroyer/wolftex/textures/xpm/greystone.xpm
-WE ./cub3d_destroyer/wolftex/textures/xpm/wood.xpm
-R 1080 720
- S ./cub3d_destroyer/wolftex/textures/xpm/barrel.xpm
+SO ../textures/t1.xpm 
+EA ../textures/t2.xpm
+NO    ../textures/t3.xpm
+WE ../textures/t4.xpm
+R 1000 50000
+ S ../textures/s.xpm
 C 255,200,160
 
 11111111111111111
@@ -13,13 +13,10 @@ C 255,200,160
 10000000000000001
 10002000200020001
 10000000000000001
-10202020002020201
+10202020N02020201
 10000000000000001
 10000000200200001
 10000000000000001
 10200000200002001
 10000000000000001
-11111111111111111
-11111111111111111
-100N0000000000001
 11111111111111111
