@@ -6,7 +6,7 @@
 /*   By: sbensarg <sbensarg@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/29 12:50:10 by sbensarg          #+#    #+#             */
-/*   Updated: 2021/01/06 16:59:35 by sbensarg         ###   ########.fr       */
+/*   Updated: 2021/01/09 18:21:09 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,22 +56,22 @@ void	draw_wall(int tilex, int tiley, int height)
 
 	i = 0;
 	j = 0;
-	while (i < g_consts.ray_width)
+	if (height > g_consts.display_window_height)
+		j = (height / 2) - (g_consts.display_window_height / 2);
+	put_color_c(&tilex, &tiley, &i);
+	while (j < height)
 	{
-		put_color_c(&tilex, &tiley, &i);
-		while (j < height)
+		if (tiley + j >= 0 && tiley + j < g_consts.display_window_height)
 		{
-			if (tiley + j >= 0 && tiley + j < g_consts.display_window_height)
-			{
-				y = (g_consts.tile_size * j) / height;
-				my_mlx_pixel_put(tilex + i, tiley + j,
-				ft_read_from_memory(g_texture[g_texturenum], (g_textureoffsetx *
-				g_texture[g_texturenum].tw) / g_consts.tile_size,
-				(y * g_texture[g_texturenum].th) / g_consts.tile_size));
-			}
-			j++;
+			y = (g_consts.tile_size * j) / height;
+			my_mlx_pixel_put(tilex + i, tiley + j,
+			ft_read_from_memory(g_texture[g_texturenum], (g_textureoffsetx *
+			g_texture[g_texturenum].tw) / g_consts.tile_size,
+			(y * g_texture[g_texturenum].th) / g_consts.tile_size));
 		}
-		put_color_f(&tilex, &tiley, &i, &height);
-		i++;
+		else if (tiley + j >= g_consts.display_window_height)
+			break ;
+		j++;
 	}
+	put_color_f(&tilex, &tiley, &i, &height);
 }

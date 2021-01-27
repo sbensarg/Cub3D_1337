@@ -6,7 +6,7 @@
 /*   By: sbensarg <sbensarg@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/27 11:44:11 by sbensarg          #+#    #+#             */
-/*   Updated: 2021/01/06 17:19:20 by sbensarg         ###   ########.fr       */
+/*   Updated: 2021/01/10 19:07:23 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,13 @@ int		is_player(int *k)
 
 void	ft_isdigit(char *c)
 {
-	if (!(*c >= 48 && *c <= 57))
-		ft_print_err("Invalid digit");
+	int i;
+
+	i = 0;
+	while (c[i] != '\0')
+	{
+		if (!(c[i] >= 48 && c[i] <= 57))
+			ft_print_err("Invalid digit");
+		i++;
+	}
 }

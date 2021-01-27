@@ -6,14 +6,14 @@
 /*   By: sbensarg <sbensarg@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 20:25:51 by sbensarg          #+#    #+#             */
-/*   Updated: 2021/01/07 16:26:46 by sbensarg         ###   ########.fr       */
+/*   Updated: 2021/01/16 18:16:50 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "../minilibx_beta/mlx.h"
+# include "mlx.h"
 # include <math.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -240,12 +240,13 @@ float				fmod_angle(float angle);
 void				rendersprites();
 float				putray(float angle);
 void				ft_print_err(char *s);
+void				ft_print_perror(void);
 void				check_spaces(char *str);
 void				check_border(char *str);
 void				check_tab_spaces();
 void				init_data();
 void				ft_check_param();
-int					len_num(long long nbr);
+size_t				len_num(long long nbr);
 void				check_ext(char *ext);
 int					check_path(char *path);
 void				init_sprite();
@@ -282,11 +283,12 @@ void				ft_bubble_sorte(double *distance);
 void				init_texture(void);
 void				init_rotationangle(void);
 int					ft_close(void);
-int					ft_keypressed(int keycode, void *lol);
-int					ft_keyreleased(int keycode, void *lol);
+int					ft_keypressed(int keycode);
+int					ft_keyreleased(int keycode);
 int					update(void);
 void				init_struct(void);
 void				ft_add_to_freeall(void *addr);
 void				freestrct();
-void				ft_getmap(char **str, char **ret);
+void				free_ptr(char **ptr);
+void				ft_getmap(char **str);
 #endif

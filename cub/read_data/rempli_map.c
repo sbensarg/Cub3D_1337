@@ -6,7 +6,7 @@
 /*   By: sbensarg <sbensarg@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/27 11:38:20 by sbensarg          #+#    #+#             */
-/*   Updated: 2021/01/06 17:10:13 by sbensarg         ###   ########.fr       */
+/*   Updated: 2021/01/27 10:56:02 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,15 @@ void	ft_init_map(void)
 	int j;
 
 	j = 0;
-	g_data_cub.map = malloc(g_data_cub.map_j * sizeof(int*));
+	i = 0;
+	if ((g_data_cub.map = malloc((g_data_cub.map_j) * sizeof(int*))) == NULL)
+		ft_print_perror();
 	ft_add_to_freeall(g_data_cub.map);
 	while (j < g_data_cub.map_j)
 	{
-		g_data_cub.map[j] = malloc(g_data_cub.map_i * sizeof(int));
+		g_data_cub.map[j] = malloc((g_data_cub.map_i + 1) * sizeof(int));
+		if (g_data_cub.map[j] == NULL)
+			ft_print_perror();
 		ft_add_to_freeall(g_data_cub.map[j]);
 		i = 0;
 		while (i <= g_data_cub.map_i)

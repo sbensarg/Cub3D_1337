@@ -6,7 +6,7 @@
 /*   By: sbensarg <sbensarg@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/27 12:06:24 by sbensarg          #+#    #+#             */
-/*   Updated: 2021/01/06 17:04:40 by sbensarg         ###   ########.fr       */
+/*   Updated: 2021/01/16 17:41:56 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ void	ft_check_param(void)
 		ft_print_err("Invalid Configuration");
 }
 
-int		len_num(long long nbr)
+size_t	len_num(long long nbr)
 {
-	int count;
+	size_t count;
 
 	count = 0;
 	if (nbr >= 0 && nbr <= 9)
@@ -65,7 +65,8 @@ void	check_ext(char *ext)
 	int len;
 
 	len = ft_strlen1(ext);
-	if (ft_strncmp(&ext[len - 4], ".cub", 4) != 0)
+	if (ft_strncmp(&ext[len - 4], ".cub", 4) != 0
+	|| len <= 4 || ext[len - 5] == '/')
 		ft_print_err("ivalid cub");
 }
 

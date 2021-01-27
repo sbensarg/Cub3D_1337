@@ -6,7 +6,7 @@
 /*   By: sbensarg <sbensarg@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/27 11:51:54 by sbensarg          #+#    #+#             */
-/*   Updated: 2021/01/06 17:06:29 by sbensarg         ###   ########.fr       */
+/*   Updated: 2021/01/08 18:24:32 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,14 @@ void	init_sprite(void)
 	if (g_sprite.num_sprites > 0)
 	{
 		g_sprite.sprite_map = malloc(g_sprite.num_sprites * sizeof(int*));
+		if (g_sprite.sprite_map == NULL)
+			ft_print_perror();
 		ft_add_to_freeall(g_sprite.sprite_map);
 	}
 	while (l < g_sprite.num_sprites)
 	{
-		g_sprite.sprite_map[l] = malloc(2 * sizeof(int));
+		if ((g_sprite.sprite_map[l] = malloc(2 * sizeof(int))) == NULL)
+			ft_print_perror();
 		ft_add_to_freeall(g_sprite.sprite_map[l]);
 		l++;
 	}

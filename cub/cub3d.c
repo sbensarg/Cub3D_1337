@@ -6,7 +6,7 @@
 /*   By: sbensarg <sbensarg@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 00:52:27 by sbensarg          #+#    #+#             */
-/*   Updated: 2021/01/07 18:46:23 by sbensarg         ###   ########.fr       */
+/*   Updated: 2021/01/22 19:25:50 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,10 @@ int		init_window(void)
 int		main(int argc, char **argv)
 {
 	init_struct();
-	if (argc >= 2)
+	if (argc == 2 || argc == 3)
 	{
 		if (ft_read_from_dotcub(argv[1]) == -1)
-			ft_print_err("invalide file");
+			ft_print_perror();
 		init_consts();
 		init_player();
 		init_window();
@@ -102,5 +102,5 @@ int		main(int argc, char **argv)
 		return (EXIT_SUCCESS);
 	}
 	else
-		ft_print_err("please enter the cub file!!");
+		ft_print_err("invalide argument!!");
 }

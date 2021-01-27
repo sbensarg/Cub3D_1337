@@ -6,11 +6,12 @@
 /*   By: sbensarg <sbensarg@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 16:46:33 by sbensarg          #+#    #+#             */
-/*   Updated: 2020/12/31 16:34:37 by sbensarg         ###   ########.fr       */
+/*   Updated: 2021/01/27 10:53:33 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include <stdio.h>
 
 static int		fct(char s, char *str)
 {
@@ -53,11 +54,15 @@ char			*ft_strtrim(char const *s1, char const *set)
 	int		start;
 	int		end;
 	char	*str;
+	int		len;
 
+	end = 0;
 	if (s1 == NULL || set == NULL)
 		return (is_null(s1, set));
 	start = 0;
-	end = ft_strlen1(s1) - 1;
+	len = ft_strlen1(s1);
+	if (len > 0)
+		end = len - 1;
 	while (fct(s1[start], (char *)set) != 0)
 		start++;
 	while (fct(s1[end], (char *)set) != 0 && end > 0)

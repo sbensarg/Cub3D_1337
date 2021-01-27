@@ -6,7 +6,7 @@
 /*   By: sbensarg <sbensarg@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/29 10:41:22 by sbensarg          #+#    #+#             */
-/*   Updated: 2021/01/06 17:20:32 by sbensarg         ###   ########.fr       */
+/*   Updated: 2021/01/27 10:29:46 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ int				nextposallowed(float newplayerx, float newplayery)
 	int	gridx;
 	int	gridy;
 
-	if (newplayerx < 0 || newplayerx > g_consts.window_width
-			|| newplayery < 0 || newplayery > g_consts.window_height)
+	if (newplayerx < 0 || newplayerx >= g_consts.window_width
+			|| newplayery < 0 || newplayery >= g_consts.window_height)
 		return (1);
 	if (g_player.x - newplayerx <= 0)
 		newplayerx += g_player.radius + 1;
@@ -64,8 +64,8 @@ int				iswall(float x, float y)
 	int	gridx;
 	int	gridy;
 
-	if (x < 0 || x > g_consts.window_width
-	|| y < 0 || y > g_consts.window_height)
+	if (x < 0 || x >= g_consts.window_width
+	|| y < 0 || y >= g_consts.window_height)
 		return (1);
 	gridx = floor(x / g_consts.tile_size);
 	gridy = floor(y / g_consts.tile_size);

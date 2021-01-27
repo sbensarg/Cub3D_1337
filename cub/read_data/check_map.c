@@ -6,7 +6,7 @@
 /*   By: sbensarg <sbensarg@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/27 11:57:27 by sbensarg          #+#    #+#             */
-/*   Updated: 2021/01/06 17:02:30 by sbensarg         ###   ########.fr       */
+/*   Updated: 2021/01/27 11:56:06 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,29 +36,32 @@ void	check_border(char *str)
 	i = 0;
 	while (str[i] == ' ')
 		i++;
-	if (str[i] != '1' || str[ft_strlen1(str) - 1] != '1')
+	if ((str[i] != '1' && str[i] != ' ' && str[i] != '\0')
+	|| (str[ft_strlen1(str) - 1] != '1'
+	&& str[ft_strlen1(str) - 1] != ' '
+	&& str[ft_strlen1(str) - 1] != '\0'))
 		ft_print_err("map not closed 4");
 }
 
-void	check_tab_spaces_diagonale(int *i, int *j)
+void	check_tab_spaces_diagonale(int i, int j)
 {
-	if (*j > 0 && (g_data_cub.map[*j - 1][*i] == 4 ||
-				g_data_cub.map[*j - 1][*i] == -1))
+	if (j > 0 && (g_data_cub.map[j - 1][i] == 4 ||
+				g_data_cub.map[j - 1][i] == -1))
 		ft_print_err("map not closed 1");
-	if (*j > 0 && (g_data_cub.map[*j - 1][*i - 1] == 4 ||
-				g_data_cub.map[*j - 1][*i - 1] == -1))
+	if (j > 0 && (g_data_cub.map[j - 1][i - 1] == 4 ||
+				g_data_cub.map[j - 1][i - 1] == -1))
 		ft_print_err("map not closed 5");
-	if (*j > 0 && (g_data_cub.map[*j - 1][*i + 1] == 4 ||
-				g_data_cub.map[*j - 1][*i + 1] == -1))
+	if (j > 0 && (g_data_cub.map[j - 1][i + 1] == 4 ||
+				g_data_cub.map[j - 1][i + 1] == -1))
 		ft_print_err("map not closed 6");
-	if (*j < g_data_cub.map_j - 1 && (g_data_cub.map[*j + 1][*i] == 4
-				|| g_data_cub.map[*j + 1][*i] == -1))
+	if (j < g_data_cub.map_j - 1 && (g_data_cub.map[j + 1][i] == 4
+				|| g_data_cub.map[j + 1][i] == -1))
 		ft_print_err("map not closed 2");
-	if (*j < g_data_cub.map_j - 1 && (g_data_cub.map[*j + 1][*i - 1] == 4
-				|| g_data_cub.map[*j + 1][*i - 1] == -1))
+	if (j < g_data_cub.map_j - 1 && (g_data_cub.map[j + 1][i - 1] == 4
+				|| g_data_cub.map[j + 1][i - 1] == -1))
 		ft_print_err("map not closed 7");
-	if (*j < g_data_cub.map_j - 1 && (g_data_cub.map[*j + 1][*i + 1] == 4
-				|| g_data_cub.map[*j + 1][*i + 1] == -1))
+	if (j < g_data_cub.map_j - 1 && (g_data_cub.map[j + 1][i + 1] == 4
+				|| g_data_cub.map[j + 1][i + 1] == -1))
 		ft_print_err("map not closed 8");
 }
 
@@ -75,11 +78,11 @@ void	check_tab_spaces(void)
 		{
 			while (g_data_cub.map[j][i] == 4)
 				i++;
-			if ((g_data_cub.map[0][i] == 0 || g_data_cub.map[0][i] == 2)
-					&& g_data_cub.map[0][i] != -1)
+			if ((g_data_cub.map[j][i] == 0 || g_data_cub.map[j][i] == 2)
+			&& g_data_cub.map[j][i] != -1 && j == 0)
 				ft_print_err("top of the map not closed");
 			if (g_data_cub.map[j][i] == 0 || g_data_cub.map[j][i] == 2)
-				check_tab_spaces_diagonale(&i, &j);
+				check_tab_spaces_diagonale(i, j);
 			if ((g_data_cub.map[g_data_cub.map_j - 1][i] == 0 ||
 						g_data_cub.map[g_data_cub.map_j - 1][i] == 0)
 					&& g_data_cub.map[g_data_cub.map_j - 1][i] != -1)
@@ -91,14 +94,12 @@ void	check_tab_spaces(void)
 	}
 }
 
-void	ft_getmap(char **str, char **ret)
+void	ft_getmap(char **str)
 {
 	char *str1;
-	char *ret1;
 
 	str1 = *str;
-	ret1 = *ret;
-	if (is_all() == 1 && is_valide(str1) == 1)
+	if (is_all() == 1 && is_valide(str1) == 1 && *str1 != '\0')
 	{
 		g_sprite.num_sprites += ft_checksprite(str1);
 		ft_read_map(str1);
@@ -106,7 +107,7 @@ void	ft_getmap(char **str, char **ret)
 		check_border(str1);
 		check_spaces(str1);
 	}
-	else if (is_valide(ret1) != 1 && g_data_cub.map_j > 0)
+	else if (is_valide(str1) != 1 && g_data_cub.map_j > 0)
 	{
 		ft_print_err("line in map not valide");
 	}

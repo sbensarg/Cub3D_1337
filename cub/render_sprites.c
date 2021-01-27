@@ -6,7 +6,7 @@
 /*   By: sbensarg <sbensarg@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 18:08:03 by sbensarg          #+#    #+#             */
-/*   Updated: 2021/01/06 16:48:19 by sbensarg         ###   ########.fr       */
+/*   Updated: 2021/01/27 09:59:53 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	ft_sortsprites(void)
 
 	l = 0;
 	g_sprite.spritedistance = malloc(sizeof(double) * g_sprite.num_sprites);
+	if (g_sprite.spritedistance == NULL)
+		ft_print_perror();
 	while (l < g_sprite.num_sprites)
 	{
 		g_sprite.spritedistance[l] =
@@ -83,7 +85,7 @@ void	draw_sprite(void)
 {
 	while (g_sprite.j < g_sprite.nbrofrays)
 	{
-		if (g_sprite.x != -1 &&
+		if (g_sprite.x >= 0 && g_sprite.x < g_consts.num_of_rays &&
 				g_raydistance[g_sprite.x] > g_sprite.spritedistance[g_sprite.l])
 		{
 			putpixel_sprite(g_sprite.x,

@@ -6,7 +6,7 @@
 /*   By: sbensarg <sbensarg@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 20:25:42 by sbensarg          #+#    #+#             */
-/*   Updated: 2021/01/06 17:00:34 by sbensarg         ###   ########.fr       */
+/*   Updated: 2021/01/27 10:01:22 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ void	render_rays(void)
 	g_ray.ray = 0;
 	g_ray.ray_lenght = 0;
 	init_consts();
-	g_raydistance = malloc(sizeof(float) * g_consts.num_of_rays);
+	if ((g_raydistance = malloc(sizeof(float) * g_consts.num_of_rays)) == NULL)
+		ft_print_perror();
 	while (g_ray.ray < g_consts.num_of_rays)
 	{
 		g_ray.ray_lenght = putray(g_consts.first_ray_ang);

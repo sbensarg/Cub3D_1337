@@ -6,7 +6,7 @@
 /*   By: sbensarg <sbensarg@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/31 16:20:05 by sbensarg          #+#    #+#             */
-/*   Updated: 2021/01/07 18:47:29 by sbensarg         ###   ########.fr       */
+/*   Updated: 2021/01/27 11:00:10 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		ft_close(void)
 	return (0);
 }
 
-int		ft_keypressed(int keycode, void *lol)
+int		ft_keypressed(int keycode)
 {
 	if (keycode == KEY_RIGHT)
 		g_player.turndirection = 1;
@@ -40,7 +40,7 @@ int		ft_keypressed(int keycode, void *lol)
 	return (0);
 }
 
-int		ft_keyreleased(int keycode, void *lol)
+int		ft_keyreleased(int keycode)
 {
 	if (keycode == KEY_RIGHT)
 		g_player.turndirection = 0;

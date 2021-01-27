@@ -6,7 +6,7 @@
 /*   By: sbensarg <sbensarg@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/30 14:20:46 by sbensarg          #+#    #+#             */
-/*   Updated: 2021/01/06 16:57:55 by sbensarg         ###   ########.fr       */
+/*   Updated: 2021/01/16 18:59:40 by sbensarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,14 @@ void	putpixel_sprite(int x, int y, int height)
 {
 	int				j;
 	unsigned int	color;
-	int				i;
 
 	j = 0;
-	i = 0;
+	if (height >= g_consts.display_window_height)
+		j = (height / 2) - (g_consts.display_window_height / 2);
 	while (j < height)
 	{
-		if (y + j >= 0 && y + j < g_consts.display_window_height)
+		if (y + j >= 0 && y + j < g_consts.display_window_height
+		&& x >= 0 && x < g_consts.display_window_width)
 		{
 			color = ft_read_from_memory(g_texture[4],
 					g_texture[4].tw * g_sprite.j / g_sprite.nbrofrays,
@@ -43,6 +44,8 @@ void	putpixel_sprite(int x, int y, int height)
 			if (color != 0x0000)
 				my_mlx_pixel_put(x, y + j, color);
 		}
+		else if (y + j >= g_consts.display_window_height)
+			break ;
 		j++;
 	}
 }
@@ -50,11 +53,9 @@ void	putpixel_sprite(int x, int y, int height)
 void	ft_bubble_sorte(double *distance)
 {
 	int	i;
-	int	j;
 	int	temp;
 
 	i = 0;
-	j = 0;
 	while (i + 1 < g_sprite.num_sprites)
 	{
 		if (distance[i] < distance[i + 1])
